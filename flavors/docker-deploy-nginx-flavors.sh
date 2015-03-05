@@ -8,6 +8,7 @@ docker run -d \
   --link demo1:demo1 \
   --link demo2:demo2 \
   --link demo3:demo3 \
+  --link duwamish_flavor:duwamish_flavor \
   -p 80:80 \
   -it lukeswart/flavors-nginx
 
