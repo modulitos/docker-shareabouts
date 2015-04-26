@@ -8,7 +8,7 @@ fi
 
 echo "selected FLAVOR is $FLAVOR"
 
-flavors=(demo1 demo2 demo3 duwamish_flavor)
+flavors=(demo1 demo2 raingardens duwamish_flavor)
 
 PORT=-1
 for (( i = 0; i < ${#flavors[@]}; i++ )); do
@@ -26,7 +26,9 @@ fi
 echo "PORT is $PORT"
 command="./src/manage.py compilemessages && gunicorn wsgi:application -w 3 -b 0.0.0.0:${PORT} --log-level=debug"
 
+echo "killing flavor container:"
 docker kill $FLAVOR
+echo "removing flavor container:"
 docker rm $FLAVOR
 
 docker run -d \
@@ -34,5 +36,5 @@ docker run -d \
     -p ${PORT}:${PORT} \
     -e "FLAVOR=${FLAVOR}" \
     --env-file .env \
-    -it lukeswart/duwamish \
+    -it lukeswart/duwamish-flavor \
     sh -c "${command}" 
