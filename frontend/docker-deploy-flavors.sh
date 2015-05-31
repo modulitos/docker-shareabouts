@@ -28,7 +28,7 @@ if [[ "${PORT}" = -1 ]]; then
 fi
 
 echo "PORT is $PORT"
-command="./src/manage.py collectstatic --noinput && ./src/manage.py compilemessages && gunicorn wsgi:application -w 3 -b 0.0.0.0:${PORT} --log-level=debug"
+command="rm -rf staticfiles/* && ./src/manage.py collectstatic --noinput && ./src/manage.py compilemessages && gunicorn wsgi:application -w 3 -b 0.0.0.0:${PORT} --log-level=debug"
 
 echo "killing flavor container:"
 docker kill $FLAVOR
