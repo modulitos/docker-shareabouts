@@ -12,7 +12,7 @@ fi
 
 echo "selected FLAVOR is $FLAVOR"
 
-flavors=(demo1 demo2 raingardens duwamish_flavor)
+flavors=(demo1 happytrail raingardens duwamish_flavor)
 
 PORT=-1
 for (( i = 0; i < ${#flavors[@]}; i++ )); do

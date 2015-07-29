@@ -36,6 +36,19 @@ elif [[ "$1" == "lukeswart/nginx-raingardens" ]]; then
            --link raingardens:raingardens \
            -p 80:80 \
            -it $DOCKER_REPO
+    
+elif [[ "$1" == "lukeswart/nginx-happytrail" ]]; then
+    echo "killing container:"
+    docker kill nginx-happytrail
+    echo "removing container:"
+    docker rm nginx-happytrail
+
+    docker run -d \
+           --name "nginx-happytrail" \
+           --volumes-from happytrail \
+           --link happytrail:happytrail \
+           -p 80:80 \
+           -it $DOCKER_REPO
 else
     echo "docker repo not recognized: $DOCKER_REPO"
 
