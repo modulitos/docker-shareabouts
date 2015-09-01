@@ -1,1 +1,1 @@
-./docker-deploy-flavors.sh lukeswart/duwamish-flavor raingardens
+./docker-deploy-flavors.sh smartercleanup/flavors raingardens

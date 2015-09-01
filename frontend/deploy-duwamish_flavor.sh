@@ -1,1 +1,1 @@
-./docker-deploy-flavors.sh lukeswart/duwamish-flavor duwamish_flavor
+./docker-deploy-flavors.sh smartercleanup/flavors duwamish_flavor

@@ -1,1 +1,1 @@
-./docker-deploy-flavors.sh lukeswart/duwamish-flavor happytrail
+./docker-deploy-flavors.sh smartercleanup/flavors happytrail
