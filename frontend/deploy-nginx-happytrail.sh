@@ -1,1 +1,1 @@
-./docker-deploy-nginx.sh lukeswart/nginx-happytrail
+./docker-deploy-nginx.sh smartercleanup/flavors-nginx happytrail nginx-happytrail
