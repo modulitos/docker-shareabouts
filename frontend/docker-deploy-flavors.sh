@@ -27,6 +27,9 @@ if [[ "${PORT}" = -1 ]]; then
     exit 1
 fi
 
+# Simplify the port number when running only one flavor per server:
+PORT=8004
+
 echo "PORT is $PORT"
 command="rm -rf staticfiles/* && ./src/manage.py collectstatic --noinput && ./src/manage.py compilemessages && gunicorn wsgi:application -w 3 -b 0.0.0.0:${PORT} --log-level=debug"
 
