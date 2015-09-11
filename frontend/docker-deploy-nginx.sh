@@ -1,55 +1,13 @@
-#!/bin/bash
+CONTAINER_NAME="$3"
+echo "killing container:"
+docker kill $CONTAINER_NAME
+echo "removing container:"
+docker rm $CONTAINER_NAME
 
-# assumes that we have a "raingardens" container already deployed
-DOCKER_REPO="$1"
-echo "Docker repo: $DOCKER_REPO"
-
-
-if [[ "$1" == "lukeswart/nginx-duwamish" ]]; then
-    echo "killing container:"
-    docker kill nginx-duwamish
-    echo "removing container:"
-    docker rm nginx-duwamish
-
-    docker run -d \
-           --name "nginx-duwamish" \
-           --volumes-from duwamish_flavor \
-           --link duwamish_flavor:duwamish_flavor \
-           -p 80:80 \
-           -it $DOCKER_REPO
-
-#           -p 443:443 \
-#           -p 9090:9090 \
-#           --link duwamish_flavor:duwamish_flavor \
-#           --link geoserver:geoserver \
-           # -it lukeswart/duwamish-nginx
-# else # "lukeswart/nginx-raingardens"
-elif [[ "$1" == "lukeswart/nginx-raingardens" ]]; then
-    echo "killing container:"
-    docker kill nginx-raingardens
-    echo "removing container:"
-    docker rm nginx-raingardens
-
-    docker run -d \
-           --name "nginx-raingardens" \
-           --volumes-from raingardens \
-           --link raingardens:raingardens \
-           -p 80:80 \
-           -it $DOCKER_REPO
-    
-elif [[ "$1" == "lukeswart/nginx-happytrail" ]]; then
-    echo "killing container:"
-    docker kill nginx-happytrail
-    echo "removing container:"
-    docker rm nginx-happytrail
-
-    docker run -d \
-           --name "nginx-happytrail" \
-           --volumes-from happytrail \
-           --link happytrail:happytrail \
-           -p 80:80 \
-           -it $DOCKER_REPO
-else
-    echo "docker repo not recognized: $DOCKER_REPO"
-
-fi
+docker run -d \
+       --name $CONTAINER_NAME \
+       --volumes-from "$2" \
+       -v $(pwd)/"$2"-nginx.conf:/nginx.conf \
+       --link "$2":"$2" \
+       -p 80:80 \
+       -it "$1"

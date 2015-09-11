@@ -12,7 +12,7 @@ fi
 
 echo "selected FLAVOR is $FLAVOR"
 
-flavors=(demo1 happytrail raingardens duwamish_flavor)
+flavors=(marra happytrail raingardens duwamish_flavor)
 
 PORT=-1
 for (( i = 0; i < ${#flavors[@]}; i++ )); do
@@ -38,8 +38,8 @@ docker rm $FLAVOR
 docker run -d \
     --name $FLAVOR \
     -p ${PORT}:${PORT} \
+    --restart=always \
     -e "FLAVOR=${FLAVOR}" \
     --env-file .env \
     -it $DOCKER_REPO \
-    sh -c "${command}" 
-
+    sh -c "${command}"
