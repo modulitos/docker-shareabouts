@@ -9,7 +9,7 @@ docker run -d \
        -v $(pwd)/nginx.conf:/nginx.conf \
        --link smartercleanup-api:smartercleanup-api \
        -p 80:80 \
-       -it lukeswart/api-nginx
+       -it smartercleanup/api-nginx
 
        # -p 8010:8010 \
        # --restart=always \
