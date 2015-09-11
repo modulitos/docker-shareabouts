@@ -1,1 +1,1 @@
-./docker-deploy-nginx.sh lukeswart/nginx-raingardens
+./docker-deploy-nginx.sh smartercleanup/flavors-nginx raingardens nginx-raingardens
