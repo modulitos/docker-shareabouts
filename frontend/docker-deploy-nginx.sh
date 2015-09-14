@@ -7,6 +7,7 @@ docker rm $CONTAINER_NAME
 docker run -d \
        --name $CONTAINER_NAME \
        --volumes-from "$2" \
+       --restart=always \
        -v $(pwd)/nginx.conf:/nginx.conf \
        --link "$2":flavor \
        -p 80:80 \

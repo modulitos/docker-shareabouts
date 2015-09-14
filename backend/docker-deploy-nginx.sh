@@ -5,6 +5,7 @@ docker rm nginx-api
 
 docker run -d \
        --name "nginx-api" \
+       --restart=always \
        --volumes-from smartercleanup-api \
        -v $(pwd)/nginx.conf:/nginx.conf \
        --link smartercleanup-api:smartercleanup-api \
