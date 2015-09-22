@@ -95,10 +95,10 @@
 # echo "and $PG_PORT_5432_TCP_PORT (for the port number)."
 
 
-docker kill test-postgis
-docker rm test-postgis
+docker kill postgis
+docker rm postgis
 
-CMD="docker run --name="test-postgis" \
+CMD="docker run --name="postgis" \
         --hostname=localhost \
         --restart=always \
 	--env-file .postgis-env \
