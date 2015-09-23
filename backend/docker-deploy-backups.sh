@@ -5,7 +5,7 @@ CMD="docker run --name="backups" \
         --hostname="localhost" \
         --restart=always \
 	--env-file .backups-env \
-        --link=test-postgis:backup-db \
+        --link=postgis:backup-db \
         -v ~/postgres_data/smartercleanup-backups:/backups \
 	-d -t \
  	kartoza/pg-backup:9.4"
