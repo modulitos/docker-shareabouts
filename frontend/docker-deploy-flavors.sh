@@ -1,7 +1,6 @@
 #!/bin/bash
 
 DOCKER_REPO="$1"
-# should be lukeswart/duwamish-flavors (new) or lukeswart/duwamish (old)
 echo "docker repo is $DOCKER_REPO"
 
 if [[ "$2" != "" ]]; then
@@ -31,7 +30,6 @@ fi
 PORT=8004
 
 echo "PORT is $PORT"
-command="rm -rf staticfiles/* && ./src/manage.py collectstatic --noinput && ./src/manage.py compilemessages && gunicorn wsgi:application -w 3 -b 0.0.0.0:${PORT} --log-level=debug"
 
 echo "killing flavor container:"
 docker kill $FLAVOR
@@ -42,7 +40,6 @@ docker run -d \
     --name $FLAVOR \
     -p ${PORT}:${PORT} \
     --restart=always \
-    -e "FLAVOR=${FLAVOR}" \
     --env-file .env \
-    -it $DOCKER_REPO \
-    sh -c "${command}"
+    -e PORT=${PORT} \
+    -it $DOCKER_REPO

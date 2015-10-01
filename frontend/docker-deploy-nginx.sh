@@ -1,7 +1,7 @@
 CONTAINER_NAME="$3"
-echo "killing container:"
+echo "killing container $3:"
 docker kill $CONTAINER_NAME
-echo "removing container:"
+echo "removing container $3:"
 docker rm $CONTAINER_NAME
 
 docker run -d \
