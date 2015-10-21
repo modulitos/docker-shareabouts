@@ -1,0 +1,78 @@
+duwamish_flavor_data:
+  image: smartercleanup/flavors-data
+  volumes:
+    - /$DUWAMISH_DEV_FLAVOR
+  environment:
+    - FLAVOR=${DUWAMISH_DEV_FLAVOR}
+    - SITE_KEY=${DUWAMISH_DEV_KEY}
+    - SITE_URL=${DUWAMISH_DEV_URL}
+
+duwamish_flavor:
+  image: smartercleanup/flavors
+  ports:
+    - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
+  environment:
+    - DEBUG=${DEBUG}
+    - PORT=${DUWAMISH_DEV_PORT}
+    - FLAVOR=${DUWAMISH_DEV_FLAVOR}
+    - SITE_KEY=${DUWAMISH_DEV_KEY}
+    - SITE_URL=${DUWAMISH_DEV_URL}
+  restart: always
+
+air_data:
+  image: smartercleanup/flavors-data
+  volumes:
+    - /$AIR_FLAVOR
+  environment:
+    - FLAVOR=$AIR_FLAVOR
+    - SITE_KEY=${DUWAMISH_KEY}
+    - SITE_URL=${DUWAMISH_URL}
+
+air:
+  image: smartercleanup/flavors
+  ports:
+    - "${AIR_PORT}:${AIR_PORT}"
+  environment:
+    - DEBUG=${DEBUG}
+    - PORT=${AIR_PORT}
+    - FLAVOR=${AIR_FLAVOR}
+    - SITE_KEY=${DUWAMISH_KEY}
+    - SITE_URL=${DUWAMISH_URL}
+  restart: always
+
+georgetowngreen_data:
+  image: smartercleanup/flavors-data
+  volumes:
+    - /${GEORGETOWNGREEN_FLAVOR}
+  environment:
+    - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
+    - SITE_KEY=${GEORGETOWNGREEN_KEY}
+    - SITE_URL=${GEORGETOWNGREEN_URL}
+
+georgetowngreen:
+  image: smartercleanup/flavors
+  ports:
+    - "${GEORGETOWNGREEN_PORT}:${GEORGETOWNGREEN_PORT}"
+  environment:
+    - DEBUG=${DEBUG}
+    - PORT=${GEORGETOWNGREEN_PORT}
+    - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
+    - SITE_KEY=${GEORGETOWNGREEN_KEY}
+    - SITE_URL=${GEORGETOWNGREEN_URL}
+  restart: always
+
+nginx_flavors:
+  image: smartercleanup/flavors-nginx
+  links:
+    - "${DUWAMISH_DEV_FLAVOR}"
+    - "${AIR_FLAVOR}"
+    - "${GEORGETOWNGREEN_FLAVOR}"
+  volumes_from:
+    - "${DUWAMISH_DEV_FLAVOR}_data"
+    - "${AIR_FLAVOR}_data"
+    - "${GEORGETOWNGREEN_FLAVOR}_data"
+  ports:
+    - "80:80"
+  volumes:
+    - "./dev-air-georgetowngreen_nginx.conf:/nginx.conf"
+  restart: always
