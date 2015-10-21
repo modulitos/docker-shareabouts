@@ -74,5 +74,5 @@ nginx_flavors:
   ports:
     - "80:80"
   volumes:
-    - "./marra-happy-air-trees_nginx.conf:/nginx.conf"
+    - "./marra-happy-trees_nginx.conf:/nginx.conf"
   restart: always
