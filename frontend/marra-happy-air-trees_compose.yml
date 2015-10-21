@@ -61,38 +61,15 @@ trees:
     - SITE_URL=${TREES_URL}
   restart: always
 
-air_data:
-  image: smartercleanup/flavors-data
-  volumes:
-    - /${AIR_FLAVOR}
-  environment:
-    - FLAVOR=${AIR_FLAVOR}
-    - SITE_KEY=${DUWAMISH_KEY}
-    - SITE_URL=${DUWAMISH_URL}
-
-air:
-  image: smartercleanup/flavors
-  ports:
-    - "${AIR_PORT}:${AIR_PORT}"
-  environment:
-    - DEBUG=${DEBUG}
-    - PORT=${AIR_PORT}
-    - FLAVOR=${AIR_FLAVOR}
-    - SITE_KEY=${DUWAMISH_KEY}
-    - SITE_URL=${DUWAMISH_URL}
-  restart: always
-
 nginx_flavors:
   image: smartercleanup/flavors-nginx
   links:
     - "${MARRA_FLAVOR}"
     - "${HAPPYTRAIL_FLAVOR}"
-    - "${AIR_FLAVOR}"
     - "${TREES_FLAVOR}"
   volumes_from:
     - "${MARRA_FLAVOR}_data"
     - "${HAPPYTRAIL_FLAVOR}_data"
-    - "${AIR_FLAVOR}_data"
     - "${TREES_FLAVOR}_data"
   ports:
     - "80:80"
