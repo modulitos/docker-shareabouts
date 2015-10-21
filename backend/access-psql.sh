@@ -1,1 +1,1 @@
-docker run -it --link some-postgres:postgres --rm postgres sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres'
+docker run -it --link postgis:postgis --rm postgis sh -c 'exec psql -h "$POSTGIS_PORT_5432_TCP_ADDR" -p "$POSTGIS_PORT_5432_TCP_PORT" -U postgis'
