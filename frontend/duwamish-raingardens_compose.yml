@@ -1,0 +1,57 @@
+duwamish_flavor_data:
+  image: smartercleanup/flavors-data
+  volumes:
+    - /$DUWAMISH_FLAVOR
+  environment:
+    - FLAVOR=${DUWAMISH_FLAVOR}
+    - SITE_KEY=${DUWAMISH_KEY}
+    - SITE_URL=${DUWAMISH_URL}
+
+duwamish_flavor:
+  image: smartercleanup/flavors
+  ports:
+    - "${DUWAMISH_PORT}:${DUWAMISH_PORT}"
+  environment:
+    - DEBUG=${DEBUG}
+    - PORT=${DUWAMISH_PORT}
+    - FLAVOR=${DUWAMISH_FLAVOR}
+    - SITE_KEY=${DUWAMISH_KEY}
+    - SITE_URL=${DUWAMISH_URL}
+  restart: always
+
+raingardens_data:
+  image: smartercleanup/flavors-data
+  volumes:
+    - /${RAINGARDENS_FLAVOR}
+  environment:
+    - FLAVOR=${RAINGARDENS_FLAVOR}
+    - SITE_KEY=${RAINGARDENS_KEY}
+    - SITE_URL=${RAINGARDENS_URL}
+
+raingardens:
+  image: smartercleanup/flavors
+  ports:
+    - "${RAINGARDENS_PORT}:${RAINGARDENS_PORT}"
+  environment:
+    - DEBUG=${DEBUG}
+    - PORT=${RAINGARDENS_PORT}
+    - FLAVOR=${RAINGARDENS_FLAVOR}
+    - SITE_KEY=${RAINGARDENS_KEY}
+    - SITE_URL=${RAINGARDENS_URL}
+  restart: always
+
+nginx_flavors:
+  image: smartercleanup/flavors-nginx
+  links:
+    - "${DUWAMISH_FLAVOR}"
+    - "${RAINGARDENS_FLAVOR}"
+  volumes_from:
+    - "${DUWAMISH_FLAVOR}_data"
+    - "${RAINGARDENS_FLAVOR}_data"
+  ports:
+    - "80:80"
+    # - "4007:4007"
+    # - "4008:4008"
+  volumes:
+    - "./duwamish-raingardens_nginx.conf:/nginx.conf"
+  restart: always
