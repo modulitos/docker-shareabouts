@@ -17,6 +17,7 @@ duwamish_flavor:
     - FLAVOR=${DUWAMISH_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
   restart: always
 
 raingardens_data:
@@ -38,6 +39,7 @@ raingardens:
     - FLAVOR=${RAINGARDENS_FLAVOR}
     - SITE_KEY=${RAINGARDENS_KEY}
     - SITE_URL=${RAINGARDENS_URL}
+    - CLICKY_ANALYTICS_ID=${RAINGARDENS_CLICKY_ANALYTICS_ID}
   restart: always
 
 nginx_flavors:
