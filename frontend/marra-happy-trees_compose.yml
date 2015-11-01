@@ -17,6 +17,7 @@ marra:
     - FLAVOR=${MARRA_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
   restart: always
 
 happytrail_data:
@@ -38,6 +39,7 @@ happytrail:
     - FLAVOR=${HAPPYTRAIL_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
   restart: always
 
 trees_data:
@@ -59,6 +61,7 @@ trees:
     - FLAVOR=${TREES_FLAVOR}
     - SITE_KEY=${TREES_KEY}
     - SITE_URL=${TREES_URL}
+    - CLICKY_ANALYTICS_ID=${TREES_CLICKY_ANALYTICS_ID}
   restart: always
 
 nginx_flavors:

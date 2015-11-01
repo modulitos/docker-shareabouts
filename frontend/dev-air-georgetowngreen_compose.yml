@@ -38,6 +38,7 @@ air:
     - FLAVOR=${AIR_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
   restart: always
 
 georgetowngreen_data:
@@ -59,6 +60,7 @@ georgetowngreen:
     - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
     - SITE_KEY=${GEORGETOWNGREEN_KEY}
     - SITE_URL=${GEORGETOWNGREEN_URL}
+    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
   restart: always
 
 nginx_flavors:
