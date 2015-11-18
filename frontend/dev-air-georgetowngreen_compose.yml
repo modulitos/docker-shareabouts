@@ -8,16 +8,17 @@ duwamish_flavor_data:
     - SITE_URL=${DUWAMISH_DEV_URL}
 
 duwamish_flavor:
-  image: smartercleanup/flavors
+  image: smartercleanup/flavors:safe
   ports:
     - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
   environment:
-    - DEBUG=${DEBUG}
+    - DEBUG=True
     - PORT=${DUWAMISH_DEV_PORT}
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
   restart: always
+  command: sh -c "git fetch && git checkout lukeswart/mapbox-views && /duwamish/start.sh"
 
 air_data:
   image: smartercleanup/flavors-data
