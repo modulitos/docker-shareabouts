@@ -6,19 +6,20 @@ duwamish_flavor_data:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
+  command: sh -c "git fetch && git checkout lukeswart/landmark-views && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
-  image: smartercleanup/flavors:safe
+  image: smartercleanup/flavors
   ports:
     - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
   environment:
-    - DEBUG=True
+    - DEBUG=${DEBUG}
     - PORT=${DUWAMISH_DEV_PORT}
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
   restart: always
-  command: sh -c "git fetch && git checkout lukeswart/mapbox-views && /duwamish/start.sh"
+  command: sh -c "git fetch && git checkout lukeswart/landmark-views && git pull --rebase && /duwamish/start.sh"
 
 air_data:
   image: smartercleanup/flavors-data
