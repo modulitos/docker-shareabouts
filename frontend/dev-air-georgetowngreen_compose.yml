@@ -6,7 +6,7 @@ duwamish_flavor_data:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-  command: sh -c "git fetch && git checkout lukeswart/landmark-views && git pull --rebase && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch && git checkout develop && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
   image: smartercleanup/flavors
@@ -19,7 +19,7 @@ duwamish_flavor:
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
   restart: always
-  command: sh -c "git fetch && git checkout lukeswart/landmark-views && git pull --rebase && /duwamish/start.sh"
+  command: sh -c "git fetch && git checkout develop && git pull --rebase && /duwamish/start.sh"
 
 air_data:
   image: smartercleanup/flavors-data
