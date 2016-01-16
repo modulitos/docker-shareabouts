@@ -6,6 +6,7 @@ duwamish_flavor_data:
     - FLAVOR=${DUWAMISH_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
   image: smartercleanup/flavors
@@ -18,6 +19,7 @@ duwamish_flavor:
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
   restart: always
 
 raingardens_data:
