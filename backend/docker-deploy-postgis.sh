@@ -20,22 +20,22 @@
 # while getopts ":h:n:v:u:p:" OPTION
 # do
 #      case $OPTION in
-#          n)
-#              CONTAINER_NAME=${OPTARG}
-#              ;;
-#          v)
-#              VOLUME=${OPTARG}
-#              ;;
-#          u)
-#              PGUSER=${OPTARG}
-#              ;;
-#          p)
-#              PGPASSWORD=${OPTARG}
-#              ;;
-#          *)
-#              usage
-#              exit 1
-#              ;;
+#        n)
+#            CONTAINER_NAME=${OPTARG}
+#            ;;
+#        v)
+#            VOLUME=${OPTARG}
+#            ;;
+#        u)
+#            PGUSER=${OPTARG}
+#            ;;
+#        p)
+#            PGPASSWORD=${OPTARG}
+#            ;;
+#        *)
+#            usage
+#            exit 1
+#            ;;
 #      esac
 # done
 
