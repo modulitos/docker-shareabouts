@@ -18,6 +18,7 @@ marra:
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 happytrail_data:
@@ -40,6 +41,7 @@ happytrail:
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 trees_data:
@@ -62,6 +64,7 @@ trees:
     - SITE_KEY=${TREES_KEY}
     - SITE_URL=${TREES_URL}
     - CLICKY_ANALYTICS_ID=${TREES_CLICKY_ANALYTICS_ID}
+    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 nginx_flavors:

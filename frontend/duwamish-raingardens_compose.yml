@@ -19,6 +19,7 @@ duwamish_flavor:
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
   restart: always
 
@@ -42,6 +43,7 @@ raingardens:
     - SITE_KEY=${RAINGARDENS_KEY}
     - SITE_URL=${RAINGARDENS_URL}
     - CLICKY_ANALYTICS_ID=${RAINGARDENS_CLICKY_ANALYTICS_ID}
+    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 nginx_flavors:
