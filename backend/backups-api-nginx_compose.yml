@@ -17,6 +17,7 @@ postgis:
   ports:
     - 25432:5432
   env_file: ./.postgis-env
+  restart: always
 
 smartercleanup-api:
   image: smartercleanup/api
