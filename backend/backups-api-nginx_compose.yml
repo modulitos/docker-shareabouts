@@ -1,0 +1,41 @@
+backups:
+  image: kartoza/pg-backup:9.4
+  hostname: localhost
+  volumes:
+    - ~/postgres_data/smartercleanup-backups:/backups
+  links:
+    - postgis:backup-db
+  restart: always
+  env_file: ./.backups-env
+
+postgis:
+  image: kartoza/postgis:9.4-2.1
+  hostname: localhost
+  volumes:
+    - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
+    - ./start-postgis.sh:/start-postgis.sh
+  ports:
+    - 25432:5432
+  env_file: ./.postgis-env
+
+smartercleanup-api:
+  image: smartercleanup/api
+  hostname: smartercleanup
+  links:
+    - postgis:postgis-api
+  ports:
+    - 8010:8010
+  restart: always
+  env_file: ./.env
+
+nginx-api:
+  image: smartercleanup/api-nginx
+  volumes:
+    - ./nginx.conf:/nginx.conf
+  links:
+    - smartercleanup-api
+  volumes_from:
+    - smartercleanup-api
+  ports:
+    - 80:80
+  restart: always
