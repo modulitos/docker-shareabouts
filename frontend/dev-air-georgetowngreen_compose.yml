@@ -1,15 +1,18 @@
 duwamish_flavor_data:
-  image: smartercleanup/flavors-data
+  # image: lukeswart/smartercleanup-flavors-data:django-1.9
+  image: smartercleanup/platform-data:django-1.9
   volumes:
     - /$DUWAMISH_DEV_FLAVOR
   environment:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-  command: sh -c "git fetch && git checkout develop && git pull --rebase && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch --tags && git checkout tags/django-1.9 && /platform/start-data-container.sh"
+  # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
-  image: smartercleanup/flavors
+  # image: lukeswart/smartercleanup-flavors:django-1.9
+  image: smartercleanup/platform:django-1.9
   ports:
     - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
   environment:
@@ -18,9 +21,10 @@ duwamish_flavor:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+    # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
-  command: sh -c "git fetch && git checkout develop && git pull --rebase && /duwamish/start.sh"
+  command: sh -c "git fetch --tags && git checkout tags/django-1.9 && /platform/start.sh"
+  # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start.sh"
 
 air_data:
   image: smartercleanup/flavors-data
@@ -42,7 +46,7 @@ air:
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
-    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+    # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 georgetowngreen_data:
@@ -65,7 +69,7 @@ georgetowngreen:
     - SITE_KEY=${GEORGETOWNGREEN_KEY}
     - SITE_URL=${GEORGETOWNGREEN_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
-    - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+    # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
 nginx_flavors:
