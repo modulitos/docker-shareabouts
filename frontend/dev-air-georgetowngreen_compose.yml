@@ -7,7 +7,7 @@ duwamish_flavor_data:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-  command: sh -c "git fetch --tags && git checkout tags/django-1.9 && /platform/start-data-container.sh"
+  command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start-data-container.sh"
   # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
@@ -23,7 +23,7 @@ duwamish_flavor:
     - SITE_URL=${DUWAMISH_DEV_URL}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
-  command: sh -c "git fetch --tags && git checkout tags/django-1.9 && /platform/start.sh"
+  command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start.sh"
   # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start.sh"
 
 air_data:
