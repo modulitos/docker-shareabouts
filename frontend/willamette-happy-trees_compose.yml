@@ -6,7 +6,7 @@ willamette_data:
     - FLAVOR=${WILLAMETTE_FLAVOR}
     - SITE_KEY=${WILLAMETTE_KEY}
     - SITE_URL=${WILLAMETTE_URL}
-  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
 
 willamette:
   image: smartercleanup/flavors:release-0.6.1
@@ -21,7 +21,7 @@ willamette:
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
-  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start.sh"
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
 
 happytrail_data:
   image: smartercleanup/flavors-data
