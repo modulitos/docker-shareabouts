@@ -49,39 +49,64 @@ air:
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
-georgetowngreen_data:
-  image: smartercleanup/flavors-data
+waterfront_data:
+  image: smartercleanup/flavors-data:release-0.6.1
   volumes:
-    - /${GEORGETOWNGREEN_FLAVOR}
+    - /${GT_WATERFRONT_FLAVOR}
   environment:
-    - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
-    - SITE_KEY=${GEORGETOWNGREEN_KEY}
-    - SITE_URL=${GEORGETOWNGREEN_URL}
+    - FLAVOR=${GT_WATERFRONT_FLAVOR}
+    - SITE_KEY=${GT_WATERFRONT_KEY}
+    - SITE_URL=${GT_WATERFRONT_URL}
+  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start-data-container.sh"
 
-georgetowngreen:
-  image: smartercleanup/flavors
+waterfront:
+  image: smartercleanup/flavors:release-0.6.1
   ports:
-    - "${GEORGETOWNGREEN_PORT}:${GEORGETOWNGREEN_PORT}"
+    - "${GT_WATERFRONT_PORT}:${GT_WATERFRONT_PORT}"
   environment:
     - DEBUG=${DEBUG}
-    - PORT=${GEORGETOWNGREEN_PORT}
-    - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
-    - SITE_KEY=${GEORGETOWNGREEN_KEY}
-    - SITE_URL=${GEORGETOWNGREEN_URL}
+    - PORT=${GT_WATERFRONT_PORT}
+    - FLAVOR=${GT_WATERFRONT_FLAVOR}
+    - SITE_KEY=${GT_WATERFRONT_KEY}
+    - SITE_URL=${GT_WATERFRONT_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start.sh"
   restart: always
+
+# georgetowngreen_data:
+#   image: smartercleanup/flavors-data
+#   volumes:
+#     - /${GT_WATERFRONT_FLAVOR}
+#   environment:
+#     - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
+#     - SITE_KEY=${GEORGETOWNGREEN_KEY}
+#     - SITE_URL=${GEORGETOWNGREEN_URL}
+# 
+# georgetowngreen:
+#   image: smartercleanup/flavors
+#   ports:
+#     - "${GEORGETOWNGREEN_PORT}:${GEORGETOWNGREEN_PORT}"
+#   environment:
+#     - DEBUG=${DEBUG}
+#     - PORT=${GEORGETOWNGREEN_PORT}
+#     - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
+#     - SITE_KEY=${GEORGETOWNGREEN_KEY}
+#     - SITE_URL=${GEORGETOWNGREEN_URL}
+#     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+#     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+#   restart: always
 
 nginx_flavors:
   image: smartercleanup/flavors-nginx
   links:
     - "${DUWAMISH_DEV_FLAVOR}"
     - "${AIR_FLAVOR}"
-    - "${GEORGETOWNGREEN_FLAVOR}"
+    - "${GT_WATERFRONT_FLAVOR}"
   volumes_from:
     - "${DUWAMISH_DEV_FLAVOR}_data"
     - "${AIR_FLAVOR}_data"
-    - "${GEORGETOWNGREEN_FLAVOR}_data"
+    - "${GT_WATERFRONT_FLAVOR}_data"
   ports:
     - "80:80"
   volumes:
