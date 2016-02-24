@@ -7,8 +7,8 @@ duwamish_flavor_data:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-  command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start-data-container.sh"
-  # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start-data-container.sh"
+  # command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start-data-container.sh"
+  command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
   # image: lukeswart/smartercleanup-flavors:django-1.9
@@ -23,8 +23,8 @@ duwamish_flavor:
     - SITE_URL=${DUWAMISH_DEV_URL}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
-  command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start.sh"
-  # command: sh -c "git fetch && git checkout lukeswart/placetype-style-refactor-test && git pull --rebase && /duwamish/start.sh"
+  # command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start.sh"
+  command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /duwamish/start.sh"
 
 air_data:
   image: smartercleanup/flavors-data
@@ -49,29 +49,29 @@ air:
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
-waterfront_data:
+trees_data:
   image: smartercleanup/flavors-data:release-0.6.1
   volumes:
-    - /${GT_WATERFRONT_FLAVOR}
+    - /${TREES_FLAVOR}
   environment:
-    - FLAVOR=${GT_WATERFRONT_FLAVOR}
-    - SITE_KEY=${GT_WATERFRONT_KEY}
-    - SITE_URL=${GT_WATERFRONT_URL}
-  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start-data-container.sh"
+    - FLAVOR=${TREES_FLAVOR}
+    - SITE_KEY=${TREES_KEY}
+    - SITE_URL=${TREES_URL}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
 
-waterfront:
+trees:
   image: smartercleanup/flavors:release-0.6.1
   ports:
-    - "${GT_WATERFRONT_PORT}:${GT_WATERFRONT_PORT}"
+    - "${TREES_PORT}:${TREES_PORT}"
   environment:
     - DEBUG=${DEBUG}
-    - PORT=${GT_WATERFRONT_PORT}
-    - FLAVOR=${GT_WATERFRONT_FLAVOR}
-    - SITE_KEY=${GT_WATERFRONT_KEY}
-    - SITE_URL=${GT_WATERFRONT_URL}
-    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    - PORT=${TREES_PORT}
+    - FLAVOR=${TREES_FLAVOR}
+    - SITE_KEY=${TREES_KEY}
+    - SITE_URL=${TREES_URL}
+    # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
-  command: sh -c "git fetch && git checkout futuresoup/updates && /duwamish/start.sh"
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
   restart: always
 
 # georgetowngreen_data:
@@ -82,7 +82,7 @@ waterfront:
 #     - FLAVOR=${GEORGETOWNGREEN_FLAVOR}
 #     - SITE_KEY=${GEORGETOWNGREEN_KEY}
 #     - SITE_URL=${GEORGETOWNGREEN_URL}
-# 
+#
 # georgetowngreen:
 #   image: smartercleanup/flavors
 #   ports:
@@ -102,13 +102,13 @@ nginx_flavors:
   links:
     - "${DUWAMISH_DEV_FLAVOR}"
     - "${AIR_FLAVOR}"
-    - "${GT_WATERFRONT_FLAVOR}"
+    - "${TREES_FLAVOR}"
   volumes_from:
     - "${DUWAMISH_DEV_FLAVOR}_data"
     - "${AIR_FLAVOR}_data"
-    - "${GT_WATERFRONT_FLAVOR}_data"
+    - "${TREES_FLAVOR}_data"
   ports:
     - "80:80"
   volumes:
-    - "./dev-air-georgetowngreen_nginx.conf:/nginx.conf"
+    - "./dev-air-trees_nginx.conf:/nginx.conf"
   restart: always

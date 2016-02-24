@@ -46,41 +46,43 @@ happytrail:
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
 
-trees_data:
-  image: smartercleanup/flavors-data
+waterfront_data:
+  image: smartercleanup/flavors-data:release-0.6.1
   volumes:
-    - /${TREES_FLAVOR}
+    - /${WATERFRONT_FLAVOR}
   environment:
-    - FLAVOR=${TREES_FLAVOR}
-    - SITE_KEY=${TREES_KEY}
-    - SITE_URL=${TREES_URL}
+    - FLAVOR=${WATERFRONT_FLAVOR}
+    - SITE_KEY=${WATERFRONT_KEY}
+    - SITE_URL=${WATERFRONT_URL}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
 
-trees:
-  image: smartercleanup/flavors
+waterfront:
+  image: smartercleanup/flavors:release-0.6.1
   ports:
-    - "${TREES_PORT}:${TREES_PORT}"
+    - "${WATERFRONT_PORT}:${WATERFRONT_PORT}"
   environment:
     - DEBUG=${DEBUG}
-    - PORT=${TREES_PORT}
-    - FLAVOR=${TREES_FLAVOR}
-    - SITE_KEY=${TREES_KEY}
-    - SITE_URL=${TREES_URL}
-    - CLICKY_ANALYTICS_ID=${TREES_CLICKY_ANALYTICS_ID}
+    - PORT=${WATERFRONT_PORT}
+    - FLAVOR=${WATERFRONT_FLAVOR}
+    - SITE_KEY=${WATERFRONT_KEY}
+    - SITE_URL=${WATERFRONT_URL}
+    # - CLICKY_ANALYTICS_ID=${WATERFRONT_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
 
 nginx_flavors:
   image: smartercleanup/flavors-nginx
   links:
     - "${WILLAMETTE_FLAVOR}"
     - "${HAPPYTRAIL_FLAVOR}"
-    - "${TREES_FLAVOR}"
+    - "${WATERFRONT_FLAVOR}"
   volumes_from:
     - "${WILLAMETTE_FLAVOR}_data"
     - "${HAPPYTRAIL_FLAVOR}_data"
-    - "${TREES_FLAVOR}_data"
+    - "${WATERFRONT_FLAVOR}_data"
   ports:
     - "80:80"
   volumes:
-    - "./willamette-happy-trees_nginx.conf:/nginx.conf"
+    - "./willamette-happy-waterfront_nginx.conf:/nginx.conf"
   restart: always
