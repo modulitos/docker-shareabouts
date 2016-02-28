@@ -23,28 +23,30 @@ willamette:
   restart: always
   command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
 
-happytrail_data:
-  image: smartercleanup/flavors-data
+lakewashington_data:
+  image: smartercleanup/platform-data:release-0.6.2
   volumes:
-    - /$HAPPYTRAIL_FLAVOR
+    - /$LAKEWASHINGTON_FLAVOR
   environment:
-    - FLAVOR=$HAPPYTRAIL_FLAVOR
-    - SITE_KEY=${DUWAMISH_KEY}
-    - SITE_URL=${DUWAMISH_URL}
+    - FLAVOR=$LAKEWASHINGTON_FLAVOR
+    - SITE_KEY=${LAKEWASHINGTON_KEY}
+    - SITE_URL=${LAKEWASHINGTON_URL}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
-happytrail:
-  image: smartercleanup/flavors
+lakewashington:
+  image: smartercleanup/platform:release-0.6.2
   ports:
-    - "${HAPPYTRAIL_PORT}:${HAPPYTRAIL_PORT}"
+    - "${LAKEWASHINGTON_PORT}:${LAKEWASHINGTON_PORT}"
   environment:
     - DEBUG=${DEBUG}
-    - PORT=${HAPPYTRAIL_PORT}
-    - FLAVOR=${HAPPYTRAIL_FLAVOR}
-    - SITE_KEY=${DUWAMISH_KEY}
-    - SITE_URL=${DUWAMISH_URL}
-    - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    - PORT=${LAKEWASHINGTON_PORT}
+    - FLAVOR=${LAKEWASHINGTON_FLAVOR}
+    - SITE_KEY=${LAKEWASHINGTON_KEY}
+    - SITE_URL=${LAKEWASHINGTON_URL}
+    # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
 waterfront_data:
   image: smartercleanup/flavors-data:release-0.6.1
@@ -75,11 +77,11 @@ nginx_flavors:
   image: smartercleanup/flavors-nginx
   links:
     - "${WILLAMETTE_FLAVOR}"
-    - "${HAPPYTRAIL_FLAVOR}"
+    - "${LAKEWASHINGTON_FLAVOR}"
     - "${WATERFRONT_FLAVOR}"
   volumes_from:
     - "${WILLAMETTE_FLAVOR}_data"
-    - "${HAPPYTRAIL_FLAVOR}_data"
+    - "${LAKEWASHINGTON_FLAVOR}_data"
     - "${WATERFRONT_FLAVOR}_data"
   ports:
     - "80:80"
