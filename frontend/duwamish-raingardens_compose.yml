@@ -33,7 +33,7 @@ raingardens_data:
     - FLAVOR=${RAINGARDENS_FLAVOR}
     - SITE_KEY=${RAINGARDENS_KEY}
     - SITE_URL=${RAINGARDENS_URL}
-  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /platform/start-data-container.sh"
+  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
 raingardens:
   image: smartercleanup/platform:release-0.6.3
@@ -47,7 +47,7 @@ raingardens:
     - SITE_URL=${RAINGARDENS_URL}
     - CLICKY_ANALYTICS_ID=${RAINGARDENS_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
-  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /platform/start.sh"
+  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /platform/start.sh"
   restart: always
 
 nginx_flavors:
