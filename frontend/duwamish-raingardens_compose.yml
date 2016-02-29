@@ -1,16 +1,16 @@
 duwamish_flavor_data:
-  image: smartercleanup/flavors-data:release-0.6.1
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /$DUWAMISH_FLAVOR
   environment:
     - FLAVOR=${DUWAMISH_FLAVOR}
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
-  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
-  # command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+  # command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
 duwamish_flavor:
-  image: smartercleanup/flavors:release-0.6.1
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${DUWAMISH_PORT}:${DUWAMISH_PORT}"
   environment:
@@ -21,22 +21,22 @@ duwamish_flavor:
     - SITE_URL=${DUWAMISH_URL}
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
-  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /duwamish/start.sh"
-  # command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
+  command: sh -c "git fetch --tags && git checkout master && git pull --rebase && /platform/start.sh"
+  # command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
   restart: always
 
 raingardens_data:
-  image: smartercleanup/flavors-data:release-0.6.1
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /${RAINGARDENS_FLAVOR}
   environment:
     - FLAVOR=${RAINGARDENS_FLAVOR}
     - SITE_KEY=${RAINGARDENS_KEY}
     - SITE_URL=${RAINGARDENS_URL}
-  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /platform/start-data-container.sh"
 
 raingardens:
-  image: smartercleanup/flavors:release-0.6.1
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${RAINGARDENS_PORT}:${RAINGARDENS_PORT}"
   environment:
@@ -47,7 +47,7 @@ raingardens:
     - SITE_URL=${RAINGARDENS_URL}
     - CLICKY_ANALYTICS_ID=${RAINGARDENS_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
-  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /duwamish/start.sh"
+  command: sh -c "git fetch --tags && git checkout tags/0.6.1 && /platform/start.sh"
   restart: always
 
 nginx_flavors:
