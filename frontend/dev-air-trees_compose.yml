@@ -32,6 +32,7 @@ air_data:
     - FLAVOR=$AIR_FLAVOR
     - SITE_KEY=${DUWAMISH_KEY}
     - SITE_URL=${DUWAMISH_URL}
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
 air:
   image: smartercleanup/platform:release-0.6.3
@@ -46,6 +47,7 @@ air:
     - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
 trees_data:
   image: smartercleanup/platform-data:release-0.6.3
