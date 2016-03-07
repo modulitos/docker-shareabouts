@@ -1,16 +1,18 @@
 duwamish_flavor_data:
   image: smartercleanup/platform-data:release-0.6.3
+  # image: smartercleanup/platform-data:django-1.9
   volumes:
     - /$DUWAMISH_DEV_FLAVOR
   environment:
     - FLAVOR=${DUWAMISH_DEV_FLAVOR}
     - SITE_KEY=${DUWAMISH_DEV_KEY}
     - SITE_URL=${DUWAMISH_DEV_URL}
-  command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /platform/start-data-container.sh"
+  command: sh -c "git fetch && git checkout lukeswart/ssl && git pull --rebase && /platform/start-data-container.sh"
   # command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
   image: smartercleanup/platform:release-0.6.3
+  # image: smartercleanup/platform:django-1.9
   ports:
     - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
   environment:
@@ -22,7 +24,8 @@ duwamish_flavor:
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
   restart: always
   # command: sh -c "git fetch --tags && git checkout lukeswart/develop && /platform/start.sh"
-  command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /platform/start.sh"
+  # command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /platform/start.sh"
+  command: sh -c "git fetch && git checkout lukeswart/ssl && git pull --rebase && /platform/start.sh"
 
 air_data:
   image: smartercleanup/platform-data:release-0.6.3
@@ -99,6 +102,8 @@ trees:
 
 nginx_flavors:
   image: lukeswart/nginx-openresty:release-1.9.7.3
+  # image: smartercleanup/flavors-nginx
+  # image: ficusio/openresty:1.9
   links:
     - "${DUWAMISH_DEV_FLAVOR}"
     - "${AIR_FLAVOR}"
@@ -109,6 +114,10 @@ nginx_flavors:
     - "${TREES_FLAVOR}_data"
   ports:
     - "80:80"
+    - "443:443"
   volumes:
     - "./dev-air-trees_nginx.conf:/nginx.conf"
+    # - "./dev-air-trees_nginx.conf:/opt/openresty/nginx/conf/nginx.conf"
+    # - "/etc/letsencrypt/live/www.dev.heyduwamish.org:/etc/letsencrypt/live/www.dev.heyduwamish.org"
+    - "./ssl-cert:/etc/letsencrypt"
   restart: always
