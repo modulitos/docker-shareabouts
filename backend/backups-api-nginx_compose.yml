@@ -20,7 +20,7 @@ postgis:
   restart: always
 
 smartercleanup-api:
-  image: smartercleanup/api:release-0.6.1
+  image: smartercleanup/api:release-0.6.2
   hostname: smartercleanup
   links:
     - postgis:postgis-api
@@ -28,7 +28,7 @@ smartercleanup-api:
     - 8010:8010
   restart: always
   env_file: ./.env
-  command: sh -c "git fetch && git checkout master && git pull --rebase && /api/start.sh"
+  command: sh -c "git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
 
 nginx-api:
   image: smartercleanup/api-nginx
