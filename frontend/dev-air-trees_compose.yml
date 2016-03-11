@@ -96,7 +96,7 @@ trees:
 #   restart: always
 
 nginx_flavors:
-  image: smartercleanup/flavors-nginx
+  image: lukeswart/nginx-openresty:release-1.9.7.3
   links:
     - "${DUWAMISH_DEV_FLAVOR}"
     - "${AIR_FLAVOR}"

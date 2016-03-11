@@ -75,7 +75,7 @@ waterfront:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
 
 nginx_platform:
-  image: smartercleanup/flavors-nginx
+  image: lukeswart/nginx-openresty:release-1.9.7.3
   links:
     - "${WILLAMETTE_FLAVOR}"
     - "${LAKEWASHINGTON_FLAVOR}"
