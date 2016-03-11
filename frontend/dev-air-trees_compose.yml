@@ -1,6 +1,5 @@
 duwamish_flavor_data:
-  # image: lukeswart/smartercleanup-flavors-data:django-1.9
-  image: smartercleanup/platform-data:django-1.9
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /$DUWAMISH_DEV_FLAVOR
   environment:
@@ -11,8 +10,7 @@ duwamish_flavor_data:
   # command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /duwamish/start-data-container.sh"
 
 duwamish_flavor:
-  # image: lukeswart/smartercleanup-flavors:django-1.9
-  image: smartercleanup/platform:django-1.9
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${DUWAMISH_DEV_PORT}:${DUWAMISH_DEV_PORT}"
   environment:
@@ -27,7 +25,7 @@ duwamish_flavor:
   command: sh -c "git fetch && git checkout lukeswart/develop && git pull --rebase && /platform/start.sh"
 
 air_data:
-  image: smartercleanup/flavors-data
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /$AIR_FLAVOR
   environment:
@@ -36,7 +34,7 @@ air_data:
     - SITE_URL=${DUWAMISH_URL}
 
 air:
-  image: smartercleanup/flavors
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${AIR_PORT}:${AIR_PORT}"
   environment:
@@ -50,17 +48,17 @@ air:
   restart: always
 
 trees_data:
-  image: smartercleanup/flavors-data:release-0.6.1
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /${TREES_FLAVOR}
   environment:
     - FLAVOR=${TREES_FLAVOR}
     - SITE_KEY=${TREES_KEY}
     - SITE_URL=${TREES_URL}
-  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start-data-container.sh"
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
 trees:
-  image: smartercleanup/flavors:release-0.6.1
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${TREES_PORT}:${TREES_PORT}"
   environment:
@@ -71,7 +69,7 @@ trees:
     - SITE_URL=${TREES_URL}
     # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
-  command: sh -c "git fetch && git checkout master && git pull --rebase && /duwamish/start.sh"
+  command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
   restart: always
 
 # georgetowngreen_data:
