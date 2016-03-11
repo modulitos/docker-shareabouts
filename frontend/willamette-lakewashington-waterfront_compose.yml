@@ -1,5 +1,5 @@
 willamette_data:
-  image: smartercleanup/platform-data:latest
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /$WILLAMETTE_FLAVOR
   environment:
@@ -10,7 +10,7 @@ willamette_data:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
 
 willamette:
-  image: smartercleanup/platform:latest
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${WILLAMETTE_PORT}:${WILLAMETTE_PORT}"
   environment:
@@ -25,7 +25,7 @@ willamette:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
 
 lakewashington_data:
-  image: smartercleanup/platform-data:latest
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /$LAKEWASHINGTON_FLAVOR
   environment:
@@ -35,7 +35,7 @@ lakewashington_data:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
 
 lakewashington:
-  image: smartercleanup/platform:latest
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${LAKEWASHINGTON_PORT}:${LAKEWASHINGTON_PORT}"
   environment:
@@ -50,7 +50,7 @@ lakewashington:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
 
 waterfront_data:
-  image: smartercleanup/platform-data:latest
+  image: smartercleanup/platform-data:release-0.6.3
   volumes:
     - /${WATERFRONT_FLAVOR}
   environment:
@@ -60,7 +60,7 @@ waterfront_data:
   command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
 
 waterfront:
-  image: smartercleanup/platform:latest
+  image: smartercleanup/platform:release-0.6.3
   ports:
     - "${WATERFRONT_PORT}:${WATERFRONT_PORT}"
   environment:
