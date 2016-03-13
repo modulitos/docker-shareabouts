@@ -31,7 +31,7 @@ smartercleanup-api:
   command: sh -c "git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
 
 nginx-api:
-  image: smartercleanup/api-nginx
+  image: lukeswart/nginx-openresty:release-1.9.7.3
   volumes:
     - ./nginx.conf:/nginx.conf
   links:
