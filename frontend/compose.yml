@@ -1,0 +1,93 @@
+version: '2'
+services:
+  flavor_1_data:
+    image: smartercleanup/platform-data:release-0.6.3
+    volumes:
+      - /$FLAVOR_1
+    environment:
+      - FLAVOR=${FLAVOR_1}
+      - SITE_KEY=${FLAVOR_1_KEY}
+      - SITE_URL=${FLAVOR_1_URL}
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+  
+  flavor_1:
+    image: smartercleanup/platform:release-0.6.3
+    ports:
+      - "${FLAVOR_1_PORT}:${FLAVOR_1_PORT}"
+    environment:
+      - DEBUG=${DEBUG}
+      - PORT=${FLAVOR_1_PORT}
+      - FLAVOR=${FLAVOR_1}
+      - SITE_KEY=${FLAVOR_1_KEY}
+      - SITE_URL=${FLAVOR_1_URL}
+      # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+    restart: always
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+  
+  flavor_2_data:
+    image: smartercleanup/platform-data:release-0.6.3
+    volumes:
+      - /$FLAVOR_2
+    environment:
+      - FLAVOR=${FLAVOR_2}
+      - SITE_KEY=${FLAVOR_2_KEY}
+      - SITE_URL=${FLAVOR_2_URL}
+    command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
+  
+  flavor_2:
+    image: smartercleanup/platform:release-0.6.3
+    ports:
+      - "${FLAVOR_2_PORT}:${FLAVOR_2_PORT}"
+    environment:
+      - DEBUG=${DEBUG}
+      - PORT=${FLAVOR_2_PORT}
+      - FLAVOR=${FLAVOR_2}
+      - SITE_KEY=${FLAVOR_2_KEY}
+      - SITE_URL=${FLAVOR_2_URL}
+      # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+      # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+    restart: always
+    command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
+  
+  flavor_3_data:
+    image: smartercleanup/platform-data:release-0.6.3
+    volumes:
+      - /${FLAVOR_3}
+    environment:
+      - FLAVOR=${FLAVOR_3}
+      - SITE_KEY=${FLAVOR_3_KEY}
+      - SITE_URL=${FLAVOR_3_URL}
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+  
+  flavor_3:
+    image: smartercleanup/platform:release-0.6.3
+    ports:
+      - "${FLAVOR_3_PORT}:${FLAVOR_3_PORT}"
+    environment:
+      - DEBUG=${DEBUG}
+      - PORT=${FLAVOR_3_PORT}
+      - FLAVOR=${FLAVOR_3}
+      - SITE_KEY=${FLAVOR_3_KEY}
+      - SITE_URL=${FLAVOR_3_URL}
+      # - CLICKY_ANALYTICS_ID=${FLAVOR_3_CLICKY_ANALYTICS_ID}
+      # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+    restart: always
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+  
+  nginx_platform:
+    image: lukeswart/nginx-openresty:latest
+    links:
+      - "flavor_1"
+      - "flavor_2"
+      - "flavor_3"
+    volumes_from:
+      - "flavor_1_data"
+      - "flavor_2_data"
+      - "flavor_3_data"
+    ports:
+      - 80:80
+      - 4007:4007
+      - 4008:4008
+    volumes:
+      - "./nginx.conf:/opt/openresty/nginx/conf/nginx.conf"
+    restart: always
