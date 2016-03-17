@@ -1,6 +1,6 @@
 version: '2'
 services:
-  flavor_1_data:
+  ${FLAVOR_1}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /$FLAVOR_1
@@ -10,7 +10,7 @@ services:
       - SITE_URL=${FLAVOR_1_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
   
-  flavor_1:
+  ${FLAVOR_1}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_1_PORT}:${FLAVOR_1_PORT}"
@@ -24,7 +24,7 @@ services:
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
   
-  flavor_2_data:
+  ${FLAVOR_2}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /$FLAVOR_2
@@ -34,7 +34,7 @@ services:
       - SITE_URL=${FLAVOR_2_URL}
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
   
-  flavor_2:
+  ${FLAVOR_2}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_2_PORT}:${FLAVOR_2_PORT}"
@@ -49,7 +49,7 @@ services:
     restart: always
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
   
-  flavor_3_data:
+  ${FLAVOR_3}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /${FLAVOR_3}
@@ -59,7 +59,7 @@ services:
       - SITE_URL=${FLAVOR_3_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
   
-  flavor_3:
+  ${FLAVOR_3}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_3_PORT}:${FLAVOR_3_PORT}"
@@ -77,13 +77,13 @@ services:
   nginx_platform:
     image: nginx:stable-alpine
     links:
-      - "flavor_1"
-      - "flavor_2"
-      - "flavor_3"
+      - "${FLAVOR_1}"
+      - "${FLAVOR_2}"
+      - "${FLAVOR_3}"
     volumes_from:
-      - "flavor_1_data"
-      - "flavor_2_data"
-      - "flavor_3_data"
+      - "${FLAVOR_1}_data"
+      - "${FLAVOR_2}_data"
+      - "${FLAVOR_3}_data"
     ports:
       - 80:80
       - 4007:4007
