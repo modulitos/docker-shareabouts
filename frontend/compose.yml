@@ -86,8 +86,6 @@ services:
       - "${FLAVOR_3}_data"
     ports:
       - 80:80
-      - 4007:4007
-      - 4008:4008
     volumes:
       - "./nginx-envsubst.conf:/etc/nginx/nginx.conf"
     restart: always
