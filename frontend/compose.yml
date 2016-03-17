@@ -89,5 +89,5 @@ services:
       - 4007:4007
       - 4008:4008
     volumes:
-      - "./nginx.conf:/etc/nginx/nginx.conf"
+      - "./nginx-envsubst.conf:/etc/nginx/nginx.conf"
     restart: always
