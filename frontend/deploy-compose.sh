@@ -1,6 +1,9 @@
 #!/bin/bash
 
 docker rm -f `docker ps -aq -f name=${PROJECT_NAME}_*`
+
+# variables defined from now on to be automatically exported:
+set -a
 source .env
 
 # To avoid substituting nginx-related variables, lets specify only the
