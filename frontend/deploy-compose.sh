@@ -11,4 +11,6 @@ source .env
 NGINX_VARS='$FLAVOR_1:$FLAVOR_1_PORT:$FLAVOR_1_DOMAIN:$FLAVOR_2:$FLAVOR_2_PORT:$FLAVOR_2_DOMAIN:$FLAVOR_3:$FLAVOR_3_PORT:$FLAVOR_3_DOMAIN'
 envsubst "$NGINX_VARS" < nginx.conf > nginx-envsubst.conf
 
+envsubst "$NGINX_VARS" < nginx-acme-challenge.conf > nginx-acme-challenge-envsubst.conf
+
 cat ${COMPOSE_CONFIG} | envsubst | docker-compose -f - -p ${PROJECT_NAME} up -d

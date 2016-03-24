@@ -9,7 +9,7 @@ services:
       - SITE_KEY=${FLAVOR_1_KEY}
       - SITE_URL=${FLAVOR_1_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
-  
+
   ${FLAVOR_1}:
     image: smartercleanup/platform:release-0.6.3
     ports:
@@ -23,7 +23,7 @@ services:
       # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
-  
+
   ${FLAVOR_2}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
@@ -33,7 +33,7 @@ services:
       - SITE_KEY=${FLAVOR_2_KEY}
       - SITE_URL=${FLAVOR_2_URL}
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
-  
+
   ${FLAVOR_2}:
     image: smartercleanup/platform:release-0.6.3
     ports:
@@ -48,7 +48,7 @@ services:
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
-  
+
   ${FLAVOR_3}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
@@ -58,7 +58,7 @@ services:
       - SITE_KEY=${FLAVOR_3_KEY}
       - SITE_URL=${FLAVOR_3_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
-  
+
   ${FLAVOR_3}:
     image: smartercleanup/platform:release-0.6.3
     ports:
@@ -73,19 +73,41 @@ services:
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
-  
+
+  letsencrypt:
+    image: quay.io/letsencrypt/letsencrypt:latest
+    # command:  bash -c "sleep 6 && letsencrypt certonly --standalone -d wat010.opsrobot.co.uk --text --agree-tos --email george@opsrobot.co.uk --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01"
+    command:  bash -c "sleep 6 && letsencrypt certonly --standalone -d ${LETSENCRYPT_DOMAIN} --text --agree-tos --email ${EMAIL} --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01 --test-cert"
+    entrypoint: ""
+    volumes:
+      - /etc/letsencrypt
+      - /var/lib/letsencrypt
+    ports:
+      - "80"
+      - "443"
+    environment:
+      - TERM=xterm
+
   nginx_platform:
-    image: nginx:stable-alpine
+    # image: nginx:stable-alpine
+    image: lukeswart/nginx-letsencrypt
     links:
       - "${FLAVOR_1}"
       - "${FLAVOR_2}"
       - "${FLAVOR_3}"
+      - letsencrypt
     volumes_from:
       - "${FLAVOR_1}_data"
       - "${FLAVOR_2}_data"
       - "${FLAVOR_3}_data"
+      - letsencrypt
+    environment:
+      - MY_DOMAIN_NAME=${LETSENCRYPT_DOMAIN}
+      # - MY_DOMAIN_NAME=wat010.opsrobot.co.uk
     ports:
       - 80:80
     volumes:
       - "./nginx-envsubst.conf:/etc/nginx/nginx.conf"
+    mem_limit: 2g
+    cpu_shares: 256
     restart: always
