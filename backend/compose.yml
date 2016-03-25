@@ -12,7 +12,6 @@ services:
   
   postgis:
     image: kartoza/postgis:9.4-2.1
-    hostname: localhost
     volumes:
       - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
       - ./start-postgis.sh:/start-postgis.sh
@@ -20,12 +19,12 @@ services:
       - 25432:5432
     env_file: ./.postgis-env
     restart: always
+    command: sh -c "echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
   
   smartercleanup-api:
     image: smartercleanup/api:release-0.6.2
-    hostname: smartercleanup
-    links:
-      - postgis:postgis-api
+    depends_on:
+      - postgis
     ports:
       - 8010:8010
     restart: always
