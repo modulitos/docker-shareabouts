@@ -8,7 +8,9 @@ source .env
 
 # To avoid substituting nginx-related variables, lets specify only the
 # variables that we will substitute with envsubst:
-NGINX_VARS='$DOMAINS'
+NGINX_VARS='$DOMAINS:$MY_DOMAIN_NAME'
 envsubst "$NGINX_VARS" < nginx.conf > nginx-envsubst.conf
 
-docker-compose -f compose.yml -p backend_ up -d
+envsubst "$NGINX_VARS" < nginx-acme-challenge.conf > nginx-acme-challenge-envsubst.conf
+
+cat compose.yml | envsubst | docker-compose -f - -p backend_ up -d
