@@ -8,8 +8,14 @@ services:
     links:
       - postgis:backup-db
     restart: always
-    env_file: ./.backups-env
-  
+    environment:
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASS}
+      - PGPORT=${POSTGRES_PORT}
+      - PGHOST=${POSTGRES_HOST}
+      - DUMPPREFIX=${DUMPPREFIX}
+      - PGDATABASE=${PGDATABASE}
+
   postgis:
     image: kartoza/postgis:9.4-2.1
     volumes:
@@ -17,33 +23,42 @@ services:
       - ./start-postgis.sh:/start-postgis.sh
     ports:
       - 25432:5432
-    env_file: ./.postgis-env
+    environment:
+      - POSTGRES_PASS=${POSTGRES_PASS}
+      - POSTGRES_USER=${POSTGRES_USER}
     restart: always
     command: sh -c "echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
-  
+
   smartercleanup-api:
     image: smartercleanup/api:release-0.6.2
     depends_on:
       - postgis
     restart: always
-    env_file: ./.env
+    env_file: ./.env-smartercleanup-api
+    environment:
+      - PASS=${POSTGRES_PASS}
+      - USERNAME=${POSTGRES_USER}
+      - HOST=${POSTGRES_HOST}
+      - PORT=${POSTGRES_PORT}
     command: sh -c "git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
 
   letsencrypt:
     image: quay.io/letsencrypt/letsencrypt:latest
-    # command:  bash -c "sleep 6 && letsencrypt certonly --standalone -d dev-api2.heyduwamish.org --text --agree-tos --email luke@smartercleanup.org --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01 && sleep 60"
-    # Use this for generating test certs (adds `--test-cert` flag):
-    command: bash -c "sleep 6 && letsencrypt certonly --test-cert --standalone -d dev-api2.heyduwamish.org --text --agree-tos --email luke@smartercleanup.org --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01 && sleep 60"
     entrypoint: ""
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./letsencrypt-cron.sh:/letsencrypt-cron.sh
     ports:
       - "80"
       - "443"
     environment:
       - TERM=xterm
-  
+      - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
+      - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    command: "/letsencrypt-cron.sh"
+
   nginx:
     image: lukeswart/nginx-letsencrypt
     volumes:
