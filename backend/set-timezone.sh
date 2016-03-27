@@ -8,4 +8,6 @@ mkdir -p /config/etc && mv /etc/timezone /config/etc/ && ln -s /config/etc/timez
 dpkg-reconfigure -f noninteractive tzdata
 # Set the time zone
 echo "$TZ" > /config/etc/timezone
+echo "updated datetime is:"
+date
 
