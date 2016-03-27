@@ -5,6 +5,7 @@ services:
     hostname: localhost
     volumes:
       - ~/postgres_data/smartercleanup-backups:/backups
+      - ./set-timezone.sh:/set-timezone.sh
     links:
       - postgis:backup-db
     restart: always
@@ -15,19 +16,23 @@ services:
       - PGHOST=${POSTGRES_HOST}
       - DUMPPREFIX=${DUMPPREFIX}
       - PGDATABASE=${PGDATABASE}
+      - TZ=${TZ}
+    command: sh -c "/set-timezone.sh && /start.sh"
 
   postgis:
     image: kartoza/postgis:9.4-2.1
     volumes:
       - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
       - ./start-postgis.sh:/start-postgis.sh
+      - ./set-timezone.sh:/set-timezone.sh
     ports:
       - 25432:5432
     environment:
       - POSTGRES_PASS=${POSTGRES_PASS}
       - POSTGRES_USER=${POSTGRES_USER}
+      - TZ=${TZ}
     restart: always
-    command: sh -c "echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
+    command: sh -c "/set-timezone.sh && echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
 
   smartercleanup-api:
     image: smartercleanup/api:release-0.6.2
@@ -35,12 +40,15 @@ services:
       - postgis
     restart: always
     env_file: ./.env-smartercleanup-api
+    volumes:
+      - ./set-timezone.sh:/set-timezone.sh
     environment:
       - PASS=${POSTGRES_PASS}
       - USERNAME=${POSTGRES_USER}
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
-    command: sh -c "git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
+      - TZ=${TZ}
+    command: sh -c "/set-timezone.sh && git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
 
   letsencrypt:
     image: quay.io/letsencrypt/letsencrypt:latest
