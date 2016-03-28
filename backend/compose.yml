@@ -90,4 +90,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./letsencrypt-nginx-cron:/etc/cron.d/letsencrypt-nginx-cron
-    command: sh -c "apk add --update bash && rm -rf /var/cache/apk/* && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"
+    # environment:
+    #   - TZ=${TZ}
+    # TODO: automate timezone script
+    command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"
