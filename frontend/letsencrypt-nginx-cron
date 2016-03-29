@@ -1,0 +1,4 @@
+00 23 * * * docker restart frontend_letsencrypt_1 && echo 'running crontab' && docker exec frontend_nginx_1 nginx -s reload
+# An empty line is required at the end of this file for a valid cron file.
+
+

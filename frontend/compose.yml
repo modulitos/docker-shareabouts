@@ -76,19 +76,22 @@ services:
 
   letsencrypt:
     image: quay.io/letsencrypt/letsencrypt:latest
-    # command:  bash -c "sleep 6 && letsencrypt certonly --standalone -d wat010.opsrobot.co.uk --text --agree-tos --email george@opsrobot.co.uk --server https://acme-v01.api.letsencrypt.org/directory --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01"
-    command:  bash -c "sleep 6 && letsencrypt certonly --standalone -d ${LETSENCRYPT_DOMAIN} --text --agree-tos --email ${EMAIL} --rsa-key-size 4096 --verbose --renew-by-default --standalone-supported-challenges http-01 --test-cert"
     entrypoint: ""
     volumes:
-      - /etc/letsencrypt
-      - /var/lib/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./letsencrypt.sh:/letsencrypt.sh
     ports:
       - "80"
       - "443"
     environment:
       - TERM=xterm
+      - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
+      - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    command: sh -c "/letsencrypt.sh"
 
-  nginx_platform:
+  nginx:
     # image: nginx:stable-alpine
     image: lukeswart/nginx-letsencrypt
     links:
@@ -101,13 +104,23 @@ services:
       - "${FLAVOR_2}_data"
       - "${FLAVOR_3}_data"
       - letsencrypt
+    volumes:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
     environment:
-      - MY_DOMAIN_NAME=${LETSENCRYPT_DOMAIN}
-      # - MY_DOMAIN_NAME=wat010.opsrobot.co.uk
+      - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
     ports:
       - 80:80
-    volumes:
-      - "./nginx-envsubst.conf:/etc/nginx/nginx.conf"
-    mem_limit: 2g
-    cpu_shares: 256
+      - 443:443
     restart: always
+
+    # Our cron container that runs our letsencrypt container, and reloads our nginx container
+  letsencrypt-nginx-cron:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./letsencrypt-nginx-cron:/etc/cron.d/letsencrypt-nginx-cron
+    # environment:
+    #   - TZ=${TZ}
+    # TODO: automate timezone script
+    command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"
