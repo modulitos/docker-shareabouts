@@ -1,0 +1,96 @@
+version: '2'
+services:
+  backups:
+    image: kartoza/pg-backup:9.4
+    hostname: localhost
+    volumes:
+      - ~/postgres_data/smartercleanup-backups:/backups
+      - ./set-timezone.sh:/set-timezone.sh
+    links:
+      - postgis:backup-db
+    restart: always
+    environment:
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASS}
+      - PGPORT=${POSTGRES_PORT}
+      - PGHOST=${POSTGRES_HOST}
+      - DUMPPREFIX=${DUMPPREFIX}
+      - PGDATABASE=${PGDATABASE}
+      - TZ=${TZ}
+    command: sh -c "/set-timezone.sh && /start.sh"
+
+  postgis:
+    image: kartoza/postgis:9.4-2.1
+    volumes:
+      - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
+      - ./start-postgis.sh:/start-postgis.sh
+      - ./set-timezone.sh:/set-timezone.sh
+    ports:
+      - 25432:5432
+    environment:
+      - POSTGRES_PASS=${POSTGRES_PASS}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - TZ=${TZ}
+    restart: always
+    command: sh -c "/set-timezone.sh && echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
+
+  smartercleanup-api:
+    image: smartercleanup/api:release-0.6.2
+    depends_on:
+      - postgis
+    restart: always
+    env_file: ./.env-smartercleanup-api
+    volumes:
+      - ./set-timezone.sh:/set-timezone.sh
+    environment:
+      - PASS=${POSTGRES_PASS}
+      - USERNAME=${POSTGRES_USER}
+      - HOST=${POSTGRES_HOST}
+      - PORT=${POSTGRES_PORT}
+      - TZ=${TZ}
+    command: sh -c "/set-timezone.sh && git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
+
+  letsencrypt:
+    image: quay.io/letsencrypt/letsencrypt:latest
+    entrypoint: ""
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./letsencrypt.sh:/letsencrypt.sh
+    ports:
+      - "80"
+      - "443"
+    environment:
+      - TERM=xterm
+      - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
+      - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    command: sh -c "/letsencrypt.sh"
+
+  nginx:
+    image: lukeswart/nginx-letsencrypt
+    volumes:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
+    links:
+      - smartercleanup-api
+    volumes_from:
+      - smartercleanup-api
+      - letsencrypt
+    environment:
+      - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+
+  # Our cron container that runs our letsencrypt container, and reloads our nginx container
+  letsencrypt-nginx-cron:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./letsencrypt-nginx-cron:/etc/cron.d/letsencrypt-nginx-cron
+    # environment:
+    #   - TZ=${TZ}
+    # TODO: automate timezone script
+    command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"

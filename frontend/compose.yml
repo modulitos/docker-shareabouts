@@ -1,6 +1,6 @@
 version: '2'
 services:
-  flavor_1_data:
+  ${FLAVOR_1}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /$FLAVOR_1
@@ -9,8 +9,8 @@ services:
       - SITE_KEY=${FLAVOR_1_KEY}
       - SITE_URL=${FLAVOR_1_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
-  
-  flavor_1:
+
+  ${FLAVOR_1}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_1_PORT}:${FLAVOR_1_PORT}"
@@ -23,8 +23,8 @@ services:
       # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
-  
-  flavor_2_data:
+
+  ${FLAVOR_2}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /$FLAVOR_2
@@ -33,8 +33,8 @@ services:
       - SITE_KEY=${FLAVOR_2_KEY}
       - SITE_URL=${FLAVOR_2_URL}
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start-data-container.sh"
-  
-  flavor_2:
+
+  ${FLAVOR_2}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_2_PORT}:${FLAVOR_2_PORT}"
@@ -48,8 +48,8 @@ services:
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
     command: sh -c "git fetch && git checkout lukeswart/updates && git pull --rebase && /platform/start.sh"
-  
-  flavor_3_data:
+
+  ${FLAVOR_3}_data:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /${FLAVOR_3}
@@ -58,8 +58,8 @@ services:
       - SITE_KEY=${FLAVOR_3_KEY}
       - SITE_URL=${FLAVOR_3_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
-  
-  flavor_3:
+
+  ${FLAVOR_3}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_3_PORT}:${FLAVOR_3_PORT}"
@@ -73,21 +73,54 @@ services:
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
-  
-  nginx_platform:
-    image: lukeswart/nginx-openresty:latest
+
+  letsencrypt:
+    image: quay.io/letsencrypt/letsencrypt:latest
+    entrypoint: ""
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./letsencrypt.sh:/letsencrypt.sh
+    ports:
+      - "80"
+      - "443"
+    environment:
+      - TERM=xterm
+      - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
+      - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    command: sh -c "/letsencrypt.sh"
+
+  nginx:
+    # image: nginx:stable-alpine
+    image: lukeswart/nginx-letsencrypt
     links:
-      - "flavor_1"
-      - "flavor_2"
-      - "flavor_3"
+      - "${FLAVOR_1}"
+      - "${FLAVOR_2}"
+      - "${FLAVOR_3}"
+      - letsencrypt
     volumes_from:
-      - "flavor_1_data"
-      - "flavor_2_data"
-      - "flavor_3_data"
+      - "${FLAVOR_1}_data"
+      - "${FLAVOR_2}_data"
+      - "${FLAVOR_3}_data"
+      - letsencrypt
+    volumes:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
+    environment:
+      - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
     ports:
       - 80:80
-      - 4007:4007
-      - 4008:4008
-    volumes:
-      - "./nginx.conf:/opt/openresty/nginx/conf/nginx.conf"
+      - 443:443
     restart: always
+
+    # Our cron container that runs our letsencrypt container, and reloads our nginx container
+  letsencrypt-nginx-cron:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./letsencrypt-nginx-cron:/etc/cron.d/letsencrypt-nginx-cron
+    # environment:
+    #   - TZ=${TZ}
+    # TODO: automate timezone script
+    command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"

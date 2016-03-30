@@ -1,3 +1,4 @@
 .env*
 .backups-env
 .postgis-env
+*-envsubst.conf
