@@ -51,12 +51,11 @@ services:
     command: sh -c "/set-timezone.sh && git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
 
   letsencrypt:
-    image: quay.io/letsencrypt/letsencrypt:latest
+    image: lukeswart/letsencrypt
     entrypoint: ""
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-      - ./letsencrypt.sh:/letsencrypt.sh
     ports:
       - "80"
       - "443"
@@ -65,7 +64,6 @@ services:
       - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
       - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
-    command: sh -c "/letsencrypt.sh"
 
   nginx:
     image: lukeswart/nginx-letsencrypt
