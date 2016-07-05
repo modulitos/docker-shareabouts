@@ -185,16 +185,18 @@ services:
     image: smartercleanup/platform-data:release-0.6.3
     volumes:
       - /${FLAVOR_8}
+    env_file: ./.env-datasets
     environment:
       - FLAVOR=${FLAVOR_8}
       - SITE_KEY=${FLAVOR_8_KEY}
       - SITE_URL=${FLAVOR_8_URL}
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout gtopenspace && git pull --rebase && /platform/start-data-container.sh"
 
   ${FLAVOR_8_CONTAINER}:
     image: smartercleanup/platform:release-0.6.3
     ports:
       - "${FLAVOR_8_PORT}:${FLAVOR_8_PORT}"
+    env_file: ./.env-datasets
     environment:
       - DEBUG=${DEBUG}
       - PORT=${FLAVOR_8_PORT}
@@ -204,7 +206,7 @@ services:
       # - CLICKY_ANALYTICS_ID=${FLAVOR_8_CLICKY_ANALYTICS_ID}
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout gtopenspace && git pull --rebase && /platform/start.sh"
 
   # watershed flavor:
   ${FLAVOR_9_CONTAINER}_data:
