@@ -18,4 +18,6 @@ cert="/etc/letsencrypt/live/$1/cert.pem"
 # fi
 # echo "############"
 # echo " "
+
+# example: ./check-cert-expiration api.heyduwamish.org
 sudo openssl x509 -enddate -noout -in $cert
