@@ -35,11 +35,11 @@ services:
     command: sh -c "/set-timezone.sh && echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
 
   smartercleanup-api:
-    image: smartercleanup/api:release-0.6.2
+    image: smartercleanup/api:release-0.6.3
     depends_on:
       - postgis
     restart: always
-    env_file: ./.env-smartercleanup-api
+    env_file: ./.env
     volumes:
       - ./set-timezone.sh:/set-timezone.sh
     environment:
@@ -48,7 +48,7 @@ services:
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
-    command: sh -c "/set-timezone.sh && git fetch && git checkout lukeswart/1.7-dependencies-upgrade && git pull --rebase && /api/start.sh"
+    command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull --rebase && /api/start.sh"
 
   letsencrypt:
     image: lukeswart/letsencrypt
@@ -64,6 +64,19 @@ services:
       - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
       - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+
+  # # For local testing only:
+  # nginx:
+  #   image: nginx:stable-alpine
+  #   volumes:
+  #     - ./nginx-envsubst.conf:/etc/nginx/nginx.conf
+  #   links:
+  #     - smartercleanup-api
+  #   volumes_from:
+  #     - smartercleanup-api
+  #   ports:
+  #     - 80:80
+  #   restart: always
 
   nginx:
     image: lukeswart/nginx-letsencrypt
