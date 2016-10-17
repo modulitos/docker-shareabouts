@@ -1,0 +1,141 @@
+version: '2'
+services:
+  duwamish:
+    extends:
+      file: ./flavors.yml
+      service: duwamish
+
+  duwamish_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish_data
+
+  bogtobay:
+    extends:
+      file: ./flavors.yml
+      service: bogtobay
+
+  bogtobay_data:
+    extends:
+      file: ./flavors.yml
+      service: bogtobay_data
+
+  trees:
+    extends:
+      file: ./flavors.yml
+      service: trees
+
+  trees_data:
+    extends:
+      file: ./flavors.yml
+      service: trees_data
+
+  snoqualmie:
+    extends:
+      file: ./flavors.yml
+      service: snoqualmie
+
+  snoqualmie_data:
+    extends:
+      file: ./flavors.yml
+      service: snoqualmie_data
+
+  willamette:
+    extends:
+      file: ./flavors.yml
+      service: willamette
+
+  willamette_data:
+    extends:
+      file: ./flavors.yml
+      service: willamette_data
+
+  lakewashington:
+    extends:
+      file: ./flavors.yml
+      service: lakewashington
+
+  lakewashington_data:
+    extends:
+      file: ./flavors.yml
+      service: lakewashington_data
+
+  waterfront:
+    extends:
+      file: ./flavors.yml
+      service: waterfront
+
+  waterfront_data:
+    extends:
+      file: ./flavors.yml
+      service: waterfront_data
+
+  gtopenspace:
+    extends:
+      file: ./flavors.yml
+      service: gtopenspace
+
+  gtopenspace_data:
+    extends:
+      file: ./flavors.yml
+      service: gtopenspace_data
+
+  watershed:
+    extends:
+      file: ./flavors.yml
+      service: watershed
+
+  watershed_data:
+    extends:
+      file: ./flavors.yml
+      service: watershed_data
+
+  # for ssl:
+  letsencrypt:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt
+
+  nginx:
+    extends:
+      file: ./nginx.yml
+      # for ssl:
+      service: nginx-letsencrypt
+      # for http:
+      # service: nginx
+    links:
+      - duwamish
+      - bogtobay
+      - trees
+      - snoqualmie
+      - willamette
+      - lakewashington
+      - waterfront
+      - gtopenspace
+      - watershed
+    volumes_from:
+      - duwamish_data
+      - bogtobay_data
+      - trees_data
+      - snoqualmie_data
+      - willamette_data
+      - lakewashington_data
+      - waterfront_data
+      - gtopenspace_data
+      - watershed_data
+    volumes:
+      # for http:
+      # - ./pod0-envsubst.conf:/etc/nginx/nginx.conf
+      # For ssl:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./pod0-envsubst.conf:/etc/nginx/nginx-secure.conf
+    ports:
+      - 80:80
+    # For ssl:
+     - 443:443
+    restart: always
+
+   letsencrypt-cron:
+     extends:
+       file: ./nginx.yml
+       service: letsencrypt-cron
