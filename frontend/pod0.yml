@@ -4,6 +4,8 @@ services:
     extends:
       file: ./flavors.yml
       service: duwamish
+    environment:
+      - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
 
   duwamish_data:
     extends:

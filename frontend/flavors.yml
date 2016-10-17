@@ -7,18 +7,10 @@ services:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=duwamish_flavor
-      - SITE_KEY=${DUWAMISH_DEV_KEY}
-      - SITE_URL=${DUWAMISH_DEV_URL}
-      # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
-      # Multi-dataset configs:
-      # - DUWAMISH_DATASET_KEY=${DUWAMISH_DEV_KEY}
-      # - DUWAMISH_SITE_URL=${DUWAMISH_DEV_URL}
-      # - TREES_DATASET_KEY=${TREES_DEV_KEY}
-      # - TREES_SITE_URL=${TREES_DEV_URL}
-      # - AIR_DATASET_KEY=${AIR_DEV_KEY}
-      # - AIR_SITE_URL=${AIR_DEV_URL}
+      - SITE_KEY=${DUWAMISH_KEY}
+      - SITE_URL=${DUWAMISH_URL}
+      - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     restart: always
-    # command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
   duwamish_data:
@@ -27,14 +19,34 @@ services:
       - /duwamish_production
     environment:
       - CONTAINER=duwamish_production
-      # - FLAVOR=duwamish_flavor
-      # # This should be a unique name for every container, for mounting purposes
-      # - SITE_KEY=${DUWAMISH_DEV_KEY}
-      # - SITE_URL=${DUWAMISH_DEV_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
-    # command: sh -c "git checkout master && /platform/start-data-container.sh"
 
-  # bogtobay
+  duwamish-dev:
+    image: smartercleanup/platform:release-0.7.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=duwamish_flavor
+      - SITE_KEY=${DUWAMISH_DEV_KEY}
+      - SITE_URL=${DUWAMISH_DEV_URL}
+      # Multi-dataset configs:
+      - DUWAMISH_DATASET_KEY=${DUWAMISH_DEV_KEY}
+      - DUWAMISH_SITE_URL=${DUWAMISH_DEV_URL}
+      - TREES_DATASET_KEY=${TREES_DEV_KEY}
+      - TREES_SITE_URL=${TREES_DEV_URL}
+      - AIR_DATASET_KEY=${AIR_DEV_KEY}
+      - AIR_SITE_URL=${AIR_DEV_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+
+  duwamish-dev_data:
+    image: smartercleanup/platform-data:release-0.7.1
+    volumes:
+      - /duwamish_dev
+    environment:
+      - CONTAINER=duwamish_dev
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+
   bogtobay:
     image: smartercleanup/platform:release-0.7.1
     environment:
@@ -48,8 +60,7 @@ services:
       # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
-    # command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
-    command: sh -c "git fetch && git checkout data-container-updates && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
   bogtobay_data:
     image: smartercleanup/platform-data:release-0.7.1
@@ -57,10 +68,7 @@ services:
       - /bogtobay
     environment:
       - CONTAINER=bogtobay
-      # - FLAVOR=bogtobay
-      # - SITE_KEY=${BOGTOBAY_KEY}
-      # - SITE_URL=${BOGTOBAY_URL}
-    command: sh -c "git fetch && git checkout data-container-updates && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout devleop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   trees:
     image: smartercleanup/platform:release-0.6.4
@@ -79,9 +87,6 @@ services:
       - /trees
     environment:
       - CONTAINER=trees
-      # - FLAVOR=trees
-      # - SITE_KEY=${TREES_KEY}
-      # - SITE_URL=${TREES_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   snoqualmie:
@@ -101,9 +106,6 @@ services:
       - /snoqualmie
     environment:
       - CONTAINER=snoqualmie
-      # - FLAVOR=snoqualmie
-      # - SITE_KEY=${SNOQUALMIE_KEY}
-      # - SITE_URL=${SNOQUALMIE_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   willamette:
@@ -123,9 +125,6 @@ services:
       - /willamette
     environment:
       - CONTAINER=willamette
-      # - FLAVOR=willamette
-      # - SITE_KEY=${WILLAMETTE_KEY}
-      # - SITE_URL=${WILLAMETTE_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   lakewashington:
@@ -145,9 +144,6 @@ services:
       - /lakewashington
     environment:
       - CONTAINER=lakewashington
-      # - FLAVOR=lakewashington
-      # - SITE_KEY=${LAKEWASHINGTON_KEY}
-      # - SITE_URL=${LAKEWASHINGTON_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   waterfront:
@@ -167,9 +163,6 @@ services:
       - /waterfront
     environment:
       - CONTAINER=waterfront
-      # - FLAVOR=lakewashington
-      # - SITE_KEY=${LAKEWASHINGTON_KEY}
-      # - SITE_URL=${LAKEWASHINGTON_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   gtopenspace:
@@ -189,9 +182,6 @@ services:
       - /gtopenspace
     environment:
       - CONTAINER=gtopenspace
-      # - FLAVOR=lakewashington
-      # - SITE_KEY=${LAKEWASHINGTON_KEY}
-      # - SITE_URL=${LAKEWASHINGTON_URL}
     command: sh -c "git fetch && git checkout gtopenspace && git pull --rebase && /platform/start-data-container.sh"
 
   watershed:
@@ -211,7 +201,71 @@ services:
       - /watershed
     environment:
       - CONTAINER=watershed
-      # - FLAVOR=lakewashington
-      # - SITE_KEY=${LAKEWASHINGTON_KEY}
-      # - SITE_URL=${LAKEWASHINGTON_URL}
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+
+  greenways:
+    image: smartercleanup/platform:release-0.7.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=greenways
+      - SITE_KEY=${GREENWAYS_KEY}
+      - SITE_URL=${GREENWAYS_URL}
+      # Multi-dataset configs:
+      - GREENWAYS_DATASET_KEY=${GREENWAYS_KEY}
+      - GREENWAYS_SITE_URL=${GREENWAYS_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+
+  greenways_data:
+    image: smartercleanup/platform-data:release-0.7.1
+    volumes:
+      - /greenways
+    environment:
+      - CONTAINER=greenways
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+
+  rail:
+    image: smartercleanup/platform:release-0.7.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=rail
+      - SITE_KEY=${RAIL_KEY}
+      - SITE_URL=${RAIL_URL}
+      # Multi-dataset configs:
+      - RAIL_DATASET_KEY=${RAIL_KEY}
+      - RAIL_SITE_URL=${RAIL_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+
+  rail_data:
+    image: smartercleanup/platform-data:release-0.7.1
+    volumes:
+      - /rail
+    environment:
+      - CONTAINER=rail
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+
+  pugetsound:
+    image: smartercleanup/platform:release-0.7.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=pugetsound
+      - SITE_KEY=${PUGETSOUND_KEY}
+      - SITE_URL=${PUGETSOUND_URL}
+      # Multi-dataset configs:
+      - PUGETSOUND_DATASET_KEY=${PUGETSOUND_KEY}
+      - PUGETSOUND_SITE_URL=${PUGETSOUND_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+
+  pugetsound_data:
+    image: smartercleanup/platform-data:release-0.7.1
+    volumes:
+      - /pugetsound
+    environment:
+      - CONTAINER=pugetsound
+    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+
