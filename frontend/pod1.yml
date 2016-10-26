@@ -59,7 +59,7 @@ services:
       - rail
       - pugetsound
     volumes_from:
-      - duwamish_data
+      - duwamish-dev_data
       - greenways_data
       - rail_data
       - pugetsound_data
@@ -69,13 +69,14 @@ services:
       # For ssl:
       - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
       - ./pod1-envsubst.conf:/etc/nginx/nginx-secure.conf
+      - /etc/letsencrypt:/etc/letsencrypt
     ports:
       - 80:80
     # For ssl:
-     - 443:443
+      - 443:443
     restart: always
 
-   letsencrypt-cron:
-     extends:
-       file: ./nginx.yml
-       service: letsencrypt-cron
+  letsencrypt-cron:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt-cron
