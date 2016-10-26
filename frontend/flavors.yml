@@ -253,11 +253,11 @@ services:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=pugetsound
-      - SITE_KEY=${PUGETSOUND_KEY}
-      - SITE_URL=${PUGETSOUND_URL}
+      - SITE_KEY=${DUWAMISH_KEY}
+      - SITE_URL=${DUWAMISH_URL}
       # Multi-dataset configs:
-      - PUGETSOUND_DATASET_KEY=${PUGETSOUND_KEY}
-      - PUGETSOUND_SITE_URL=${PUGETSOUND_URL}
+      - DUWAMISH_DATASET_KEY=${DUWAMISH_KEY}
+      - DUWAMISH_SITE_URL=${DUWAMISH_URL}
     restart: always
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
