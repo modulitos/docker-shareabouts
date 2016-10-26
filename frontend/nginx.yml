@@ -10,11 +10,6 @@ services:
     image: lukeswart/nginx-letsencrypt
     environment:
       - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
-    ports:
-      - 80:80
-      - 443:443
-    environment:
-      - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
     restart: always
 
   letsencrypt:
