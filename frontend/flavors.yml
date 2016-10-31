@@ -37,7 +37,7 @@ services:
       - AIR_DATASET_KEY=${AIR_DEV_KEY}
       - AIR_SITE_URL=${AIR_DEV_URL}
     restart: always
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/start.sh"
 
   duwamish-dev_data:
     image: smartercleanup/platform-data:release-0.7.1
@@ -45,7 +45,7 @@ services:
       - /duwamish_dev
     environment:
       - CONTAINER=duwamish_dev
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/start-data-container.sh"
 
   bogtobay:
     image: smartercleanup/platform:release-0.7.1
