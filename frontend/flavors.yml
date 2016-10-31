@@ -9,7 +9,7 @@ services:
       - FLAVOR=duwamish_flavor
       - SITE_KEY=${DUWAMISH_KEY}
       - SITE_URL=${DUWAMISH_URL}
-      - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
+      # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
