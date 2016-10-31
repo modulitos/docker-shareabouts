@@ -1,0 +1,39 @@
+version: '2'
+services:
+  # docker-compose up -f base-compose.yml  -f duwamish-compose.yml -f willamette-compose.yml
+
+  nginx:
+    image: nginx:stable-alpine
+    restart: always
+
+  nginx-letsencrypt:
+    image: lukeswart/nginx-letsencrypt
+    environment:
+      - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
+    restart: always
+
+  letsencrypt:
+    image: lukeswart/letsencrypt
+    entrypoint: ""
+    volumes:
+      - /etc/letsencrypt:/etc/letsencrypt
+      - /var/lib/letsencrypt:/var/lib/letsencrypt
+    ports:
+      - "80"
+      - "443"
+    environment:
+      - TERM=xterm
+      - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
+      - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+
+    # Our cron container that runs our letsencrypt container, and reloads our nginx container
+  letsencrypt-cron:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./letsencrypt-nginx-cron:/etc/cron.d/letsencrypt-nginx-cron
+    # environment:
+    #   - TZ=${TZ}
+    # TODO: automate timezone script
+    command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"

@@ -1,0 +1,51 @@
+version: '2'
+services:
+  duwamish-dev:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev
+
+  duwamish-dev_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev_data
+
+  greenways:
+    extends:
+      file: ./flavors.yml
+      service: greenways
+
+  greenways_data:
+    extends:
+      file: ./flavors.yml
+      service: greenways_data
+
+  # for ssl:
+  letsencrypt:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt
+
+  nginx:
+    extends:
+      file: ./nginx.yml
+      service: nginx-letsencrypt
+    links:
+      - duwamish-dev
+      - greenways
+    volumes_from:
+      - duwamish-dev_data
+      - greenways_data
+    volumes:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./pod1-envsubst.conf:/etc/nginx/nginx-secure.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+
+  letsencrypt-cron:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt-cron

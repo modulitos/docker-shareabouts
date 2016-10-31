@@ -1,0 +1,82 @@
+version: '2'
+services:
+  duwamish-dev:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev
+
+  duwamish-dev_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev_data
+
+  greenways:
+    extends:
+      file: ./flavors.yml
+      service: greenways
+
+  greenways_data:
+    extends:
+      file: ./flavors.yml
+      service: greenways_data
+
+  rail:
+    extends:
+      file: ./flavors.yml
+      service: rail
+
+  rail_data:
+    extends:
+      file: ./flavors.yml
+      service: rail_data
+
+  pugetsound:
+    extends:
+      file: ./flavors.yml
+      service: pugetsound
+
+  pugetsound_data:
+    extends:
+      file: ./flavors.yml
+      service: pugetsound_data
+
+  # for ssl:
+  letsencrypt:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt
+
+  nginx:
+    extends:
+      file: ./nginx.yml
+      # for ssl:
+      service: nginx-letsencrypt
+      # for http:
+      # service: nginx
+    links:
+      - duwamish-dev
+      - greenways
+      - rail
+      - pugetsound
+    volumes_from:
+      - duwamish-dev_data
+      - greenways_data
+      - rail_data
+      - pugetsound_data
+    volumes:
+      # for http:
+      # - ./pod1-envsubst.conf:/etc/nginx/nginx.conf
+      # For ssl:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./pod1-envsubst.conf:/etc/nginx/nginx-secure.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+    # For ssl:
+      - 443:443
+    restart: always
+
+  letsencrypt-cron:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt-cron
