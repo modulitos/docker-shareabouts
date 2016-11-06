@@ -20,7 +20,7 @@ services:
     command: sh -c "/set-timezone.sh && /start.sh"
 
   postgis:
-    image: kartoza/postgis:9.4-2.1
+    image: kartoza/postgis:9.5-2.2
     volumes:
       - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
       - ./start-postgis.sh:/start-postgis.sh
@@ -31,8 +31,9 @@ services:
       - POSTGRES_PASS=${POSTGRES_PASS}
       - POSTGRES_USER=${POSTGRES_USER}
       - TZ=${TZ}
+      - ALLOW_IP_RANGE=${POSTGRES_ALLOW_IP_RANGE}
     restart: always
-    command: sh -c "/set-timezone.sh && echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
+    command: sh -c "/set-timezone.sh && /start-postgis.sh"
 
   smartercleanup-api:
     image: smartercleanup/api:release-0.6.3
