@@ -287,3 +287,24 @@ services:
       - CONTAINER=pugetsound
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
+  raingardens:
+    image: smartercleanup/platform:release-0.7.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=raingardens
+      - SITE_KEY=${RAINGARDENS_KEY}
+      - SITE_URL=${RAINGARDENS_URL}
+      - RAINGARDENS_DATASET_KEY=${RAINGARDENS_KEY}
+      - RAINGARDENS_SITE_URL=${RAINGARDENS_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+
+  raingardens_data:
+    image: smartercleanup/platform-data:release-0.7.1
+    volumes:
+      - /raingardens
+    environment:
+      - FLAVOR=raingardens
+      - CONTAINER=raingardens
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
