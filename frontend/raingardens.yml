@@ -1,0 +1,46 @@
+version: '2'
+services:
+  raingardens:
+    extends:
+      file: ./flavors.yml
+      service: raingardens
+
+  raingardens_data:
+    extends:
+      file: ./flavors.yml
+      service: raingardens_data
+
+  # for ssl:
+  letsencrypt:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt
+
+  nginx:
+    extends:
+      file: ./nginx.yml
+      # for ssl:
+      service: nginx-letsencrypt
+      # for http:
+      # service: nginx
+    links:
+      - raingardens
+    volumes_from:
+      - raingardens_data
+    volumes:
+      # for http:
+      # - ./pod0-envsubst.conf:/etc/nginx/nginx.conf
+      # For ssl:
+      - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      - ./raingardens-envsubst.conf:/etc/nginx/nginx-secure.conf
+      - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+    # For ssl:
+      - 443:443
+    restart: always
+
+  letsencrypt-cron:
+    extends:
+      file: ./nginx.yml
+      service: letsencrypt-cron

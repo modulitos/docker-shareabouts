@@ -11,6 +11,7 @@ source .env
 NGINX_VARS='$MY_DOMAIN_NAME:$DOMAINS'
 envsubst "$NGINX_VARS" < pod0.conf > pod0-envsubst.conf
 envsubst "$NGINX_VARS" < pod1.conf > pod1-envsubst.conf
+envsubst "$NGINX_VARS" < raingardens.conf > raingardens-envsubst.conf
 
 # For SSL:
 envsubst "$NGINX_VARS" < nginx-acme-challenge.conf > nginx-acme-challenge-envsubst.conf
