@@ -1,0 +1,6 @@
+version: '2'
+services:
+  postgis:
+    extends:
+      file: ./db.yml
+      service: postgis
