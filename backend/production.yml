@@ -25,7 +25,7 @@ services:
       service: postgis
 
   smartercleanup-api:
-    image: smartercleanup/api:release-0.6.3
+    image: smartercleanup/api:release-0.6.5
     depends_on:
       - postgis
     restart: always
@@ -38,6 +38,7 @@ services:
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
+      - SENTRY_DSN=${SENTRY_DSN}
     command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull --rebase && /api/start.sh"
 
   letsencrypt:
