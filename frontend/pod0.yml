@@ -22,15 +22,16 @@ services:
       file: ./flavors.yml
       service: bogtobay_data
 
-  trees:
+  pboakland:
     extends:
       file: ./flavors.yml
-      service: trees
+      service: pboakland
 
-  trees_data:
+  pboakland_data:
     extends:
       file: ./flavors.yml
-      service: trees_data
+      service: pboakland_data
+
 
   snoqualmie:
     extends:
@@ -108,7 +109,7 @@ services:
     links:
       - duwamish
       - bogtobay
-      - trees
+      - pboakland
       - snoqualmie
       - willamette
       - lakewashington
@@ -118,7 +119,7 @@ services:
     volumes_from:
       - duwamish_data
       - bogtobay_data
-      - trees_data
+      - pboakland_data
       - snoqualmie_data
       - willamette_data
       - lakewashington_data

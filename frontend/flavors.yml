@@ -314,3 +314,25 @@ services:
       - FLAVOR=raingardens
       - CONTAINER=raingardens
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+
+  pboakland:
+    image: smartercleanup/platform:release-0.7.2
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=pboakland
+      - SITE_KEY=${PBOAKLAND_KEY}
+      - SITE_URL=${PBOAKLAND_URL}
+      - PBOAKLAND_DATASET_KEY=${PBOAKLAND_KEY}
+      - PBOAKLAND_SITE_URL=${PBOAKLAND_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout pboakland && git pull --rebase && /platform/start.sh"
+
+  pboakland_data:
+    image: smartercleanup/platform-data:release-0.7.2
+    volumes:
+      - /pboakland
+    environment:
+      - FLAVOR=pboakland
+      - CONTAINER=pboakland
+    command: sh -c "git fetch && git checkout pboakland && git pull --rebase && /platform/start-data-container.sh"
