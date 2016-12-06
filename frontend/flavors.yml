@@ -1,7 +1,7 @@
 version: '2'
 services:
   duwamish:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -16,19 +16,19 @@ services:
       - AIR_DATASET_KEY=${AIR_DEV_KEY}
       - AIR_SITE_URL=${AIR_DEV_URL}
     restart: always
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
   duwamish_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /duwamish_production
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_production
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   duwamish-dev:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -46,7 +46,7 @@ services:
     command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/start.sh"
 
   duwamish-dev_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /duwamish_dev
     environment:
@@ -55,7 +55,7 @@ services:
     command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/start-data-container.sh"
 
   bogtobay:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -70,7 +70,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
   bogtobay_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /bogtobay
     environment:
@@ -87,7 +87,7 @@ services:
       - SITE_KEY=${TREES_KEY}
       - SITE_URL=${TREES_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   trees_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -96,7 +96,7 @@ services:
     environment:
       - FLAVOR=trees
       - CONTAINER=trees
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   snoqualmie:
     image: smartercleanup/platform:release-0.6.4
@@ -107,7 +107,7 @@ services:
       - SITE_KEY=${SNOQUALMIE_KEY}
       - SITE_URL=${SNOQUALMIE_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   snoqualmie_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -116,7 +116,7 @@ services:
     environment:
       - FLAVOR=snoqualmie
       - CONTAINER=snoqualmie
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   willamette:
     image: smartercleanup/platform:release-0.6.4
@@ -127,7 +127,7 @@ services:
       - SITE_KEY=${WILLAMETTE_KEY}
       - SITE_URL=${WILLAMETTE_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   willamette_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -136,7 +136,7 @@ services:
     environment:
       - FLAVOR=willamette
       - CONTAINER=willamette
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   lakewashington:
     image: smartercleanup/platform:release-0.6.4
@@ -147,7 +147,7 @@ services:
       - SITE_KEY=${LAKEWASHINGTON_KEY}
       - SITE_URL=${LAKEWASHINGTON_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   lakewashington_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -156,7 +156,7 @@ services:
     environment:
       - FLAVOR=lakewashington
       - CONTAINER=lakewashington
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   waterfront:
     image: smartercleanup/platform:release-0.6.4
@@ -167,7 +167,7 @@ services:
       - SITE_KEY=${WATERFRONT_KEY}
       - SITE_URL=${WATERFRONT_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   waterfront_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -176,10 +176,10 @@ services:
     environment:
       - FLAVOR=waterfront
       - CONTAINER=waterfront
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   gtopenspace:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -187,16 +187,16 @@ services:
       - SITE_KEY=${GTOPENSPACE_KEY}
       - SITE_URL=${GTOPENSPACE_URL}
     restart: always
-    command: sh -c "git fetch && git checkout gtopenspace && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
   gtopenspace_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /gtopenspace
     environment:
       - FLAVOR=gtopenspace
       - CONTAINER=gtopenspace
-    command: sh -c "git fetch && git checkout gtopenspace && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
 
   watershed:
     image: smartercleanup/platform:release-0.6.4
@@ -207,7 +207,7 @@ services:
       - SITE_KEY=${DUWAMISH_KEY}
       - SITE_URL=${DUWAMISH_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
 
   watershed_data:
     image: smartercleanup/platform-data:release-0.6.4
@@ -216,10 +216,10 @@ services:
     environment:
       - FLAVOR=duwamish-watershed
       - CONTAINER=watershed
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   greenways:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -233,7 +233,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
   greenways_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /greenways
     environment:
@@ -242,7 +242,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   rail:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -256,7 +256,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
   rail_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /rail
     environment:
@@ -265,7 +265,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   pugetsound:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -279,7 +279,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
 
   pugetsound_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /pugetsound
     environment:
@@ -288,7 +288,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   raingardens:
-    image: smartercleanup/platform:release-0.7.1
+    image: smartercleanup/platform:release-0.7.2
     environment:
       - DEBUG=False
       - PORT=8000
@@ -301,7 +301,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
   raingardens_data:
-    image: smartercleanup/platform-data:release-0.7.1
+    image: smartercleanup/platform-data:release-0.7.2
     volumes:
       - /raingardens
     environment:
