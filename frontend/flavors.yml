@@ -184,8 +184,12 @@ services:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=gtopenspace
-      - SITE_KEY=${GTOPENSPACE_KEY}
-      - SITE_URL=${GTOPENSPACE_URL}
+      - SITE_KEY=${GTOPENSPACE1_KEY}
+      - SITE_URL=${GTOPENSPACE1_URL}
+      - GTOPENSPACE1_DATASET_KEY=${GTOPENSPACE1_KEY}
+      - GTOPENSPACE1_SITE_URL=${GTOPENSPACE1_URL}
+      - GTOPENSPACE2_DATASET_KEY=${GTOPENSPACE2_KEY}
+      - GTOPENSPACE2_SITE_URL=${GTOPENSPACE2_URL}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
 
@@ -194,6 +198,8 @@ services:
     volumes:
       - /gtopenspace
     environment:
+      - SITE_KEY=${GTOPENSPACE1_KEY}
+      - SITE_URL=${GTOPENSPACE1_URL}
       - FLAVOR=gtopenspace
       - CONTAINER=gtopenspace
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
