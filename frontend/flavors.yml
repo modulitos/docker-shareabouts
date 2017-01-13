@@ -1,7 +1,7 @@
 version: '2'
 services:
   duwamish:
-    image: smartercleanup/platform:release-0.7.2
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
@@ -16,19 +16,19 @@ services:
       - AIR_DATASET_KEY=${AIR_DEV_KEY}
       - AIR_SITE_URL=${AIR_DEV_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /duwamish_production
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_production
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   duwamish-dev:
-    image: smartercleanup/platform:release-0.7.2
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
@@ -55,16 +55,16 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
-    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /duwamish_dev
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_dev
-    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   bogtobay:
     image: smartercleanup/platform:release-0.7.2
@@ -151,24 +151,26 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   lakewashington:
-    image: smartercleanup/platform:release-0.6.4
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=lakewashington
       - SITE_KEY=${LAKEWASHINGTON_KEY}
       - SITE_URL=${LAKEWASHINGTON_URL}
+      - LAKEWASHINGTON_DATASET_KEY=${LAKEWASHINGTON_KEY}
+      - LAKEWASHINGTON_SITE_URL=${LAKEWASHINGTON_URL}
     restart: always
-    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   lakewashington_data:
-    image: smartercleanup/platform-data:release-0.6.4
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /lakewashington
     environment:
       - FLAVOR=lakewashington
       - CONTAINER=lakewashington
-    command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   waterfront:
     image: smartercleanup/platform:release-0.6.4
@@ -191,7 +193,7 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   gtopenspace:
-    image: smartercleanup/platform:release-0.7.2
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
@@ -203,10 +205,10 @@ services:
       - GTOPENSPACE2_DATASET_KEY=${GTOPENSPACE2_KEY}
       - GTOPENSPACE2_SITE_URL=${GTOPENSPACE2_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   gtopenspace_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /gtopenspace
     environment:
@@ -214,7 +216,7 @@ services:
       - SITE_URL=${GTOPENSPACE1_URL}
       - FLAVOR=gtopenspace
       - CONTAINER=gtopenspace
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   watershed:
     image: smartercleanup/platform:release-0.6.4
@@ -306,7 +308,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   raingardens:
-    image: smartercleanup/platform:release-0.7.2
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
@@ -316,19 +318,19 @@ services:
       - RAINGARDENS_DATASET_KEY=${RAINGARDENS_KEY}
       - RAINGARDENS_SITE_URL=${RAINGARDENS_URL}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   raingardens_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /raingardens
     environment:
       - FLAVOR=raingardens
       - CONTAINER=raingardens
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   pboakland:
-    image: smartercleanup/platform:release-0.7.2
+    image: smartercleanup/platform:release-0.7.3
     environment:
       - DEBUG=False
       - PORT=8000
@@ -338,13 +340,13 @@ services:
       - PBOAKLAND_DATASET_KEY=${PBOAKLAND_KEY}
       - PBOAKLAND_SITE_URL=${PBOAKLAND_URL}
     restart: always
-    command: sh -c "git fetch && git checkout pboakland && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   pboakland_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: smartercleanup/platform-data:release-0.7.3
     volumes:
       - /pboakland
     environment:
       - FLAVOR=pboakland
       - CONTAINER=pboakland
-    command: sh -c "git fetch && git checkout pboakland && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
