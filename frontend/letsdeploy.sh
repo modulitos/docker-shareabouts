@@ -14,7 +14,7 @@ then
   exit 0
 fi
 
-echo "starting project containers:"
+echo "starting project containers for ${PROJECT}:"
 # To avoid substituting nginx-related variables, lets specify only the
 # variables that we will substitute with envsubst:
 NGINX_VARS='$MY_DOMAIN_NAME:$DOMAINS'
