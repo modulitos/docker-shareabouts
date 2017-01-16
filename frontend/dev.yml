@@ -1,0 +1,40 @@
+version: '2'
+services:
+  dev:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev
+
+  dev_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev_data
+
+  nginx:
+    extends:
+      file: ./nginx.yml
+      # for ssl:
+      # service: nginx-letsencrypt
+      # for http:
+      service: nginx
+    links:
+      - dev
+    volumes_from:
+      - dev_data
+    volumes:
+      # for http:
+      - ./dev-envsubst.conf:/etc/nginx/nginx.conf
+      # For ssl:
+      # - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
+      # - ./pod1-envsubst.conf:/etc/nginx/nginx-secure.conf
+      # - /etc/letsencrypt:/etc/letsencrypt
+    ports:
+      - 80:80
+    # For ssl:
+      # - 443:443
+    restart: always
+
+#  letsencrypt-cron:
+#    extends:
+#      file: ./nginx.yml
+#      service: letsencrypt-cron
