@@ -339,6 +339,14 @@ services:
       - SITE_URL=${PBOAKLAND_URL}
       - PBOAKLAND_DATASET_KEY=${PBOAKLAND_KEY}
       - PBOAKLAND_SITE_URL=${PBOAKLAND_URL}
+      - EMAIL_DEBUG=False
+      - EMAIL_USE_TLS=True
+      - EMAIL_ADDRESS=${PBOAKLAND_EMAIL_ADDRESS}
+      - EMAIL_USERNAME=${PBOAKLAND_EMAIL_PASSWORD}
+      - EMAIL_PASSWORD=${PBOAKLAND_EMAIL_PASSWORD}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
