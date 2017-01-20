@@ -23,4 +23,4 @@ envsubst "$NGINX_VARS" < ${PROJECT}.conf > ${PROJECT}-envsubst.conf
 # For SSL:
 envsubst "$NGINX_VARS" < nginx-acme-challenge.conf > nginx-acme-challenge-envsubst.conf
 
-docker-compose -f ${PROJECT}.yml up -d
+docker-compose -p ${PROJECT} -f ${PROJECT}.yml up -d
