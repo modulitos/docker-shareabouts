@@ -55,7 +55,7 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev_data:
     image: smartercleanup/platform-data:release-0.7.3
@@ -64,7 +64,7 @@ services:
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_dev
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
+    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   bogtobay:
     image: smartercleanup/platform:release-0.7.2
