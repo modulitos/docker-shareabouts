@@ -1,7 +1,7 @@
 version: '2'
 services:
   duwamish:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -19,7 +19,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /duwamish_production
     environment:
@@ -67,7 +67,7 @@ services:
     command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   bogtobay:
-    image: smartercleanup/platform:release-0.7.2
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -79,16 +79,16 @@ services:
       # - CLICKY_ANALYTICS_ID=${DUWAMISH_CLICKY_ANALYTICS_ID}
       # - MAPBOX_TOKEN=${MAPBOX_TOKEN}
     restart: always
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   bogtobay_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /bogtobay
     environment:
       - FLAVOR=bogtobay
       - CONTAINER=bogtobay
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   trees:
     image: smartercleanup/platform:release-0.6.4
@@ -151,7 +151,7 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   lakewashington:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -164,7 +164,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   lakewashington_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /lakewashington
     environment:
@@ -193,7 +193,7 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   gtopenspace:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -208,7 +208,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   gtopenspace_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /gtopenspace
     environment:
@@ -308,7 +308,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   raingardens:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -321,7 +321,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   raingardens_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /raingardens
     environment:
@@ -330,7 +330,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   pboakland:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.4
     environment:
       - DEBUG=False
       - PORT=8000
@@ -351,7 +351,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   pboakland_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.4
     volumes:
       - /pboakland
     environment:
