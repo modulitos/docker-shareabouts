@@ -1,7 +1,7 @@
 version: '2'
 services:
   duwamish:
-    image: mapseed/platform:release-0.7.4
+    image: mapseed/platform:release-0.7.5
     environment:
       - DEBUG=False
       - PORT=8000
@@ -19,7 +19,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish_data:
-    image: mapseed/platform-data:release-0.7.4
+    image: mapseed/platform-data:release-0.7.5
     volumes:
       - /duwamish_production
     environment:
@@ -28,7 +28,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   duwamish-dev:
-    image: smartercleanup/platform:release-0.7.3
+    image: mapseed/platform:release-0.7.5
     environment:
       - DEBUG=False
       - PORT=8000
@@ -55,16 +55,16 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
-    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout editor-landmark-urls && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev_data:
-    image: smartercleanup/platform-data:release-0.7.3
+    image: mapseed/platform-data:release-0.7.5
     volumes:
       - /duwamish_dev
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_dev
-    command: sh -c "git fetch && git checkout develop && git pull --rebase && /platform/scripts/start-data-container.sh"
+    command: sh -c "git fetch && git checkout editor-landmark-urls && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   bogtobay:
     image: mapseed/platform:release-0.7.4
@@ -262,7 +262,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   rail:
-    image: smartercleanup/platform:release-0.7.2
+    image: mapseed/platform:release-0.7.5
     environment:
       - DEBUG=False
       - PORT=8000
@@ -273,16 +273,16 @@ services:
       - RAIL_DATASET_KEY=${RAIL_KEY}
       - RAIL_SITE_URL=${RAIL_URL}
     restart: always
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   rail_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: mapseed/platform-data:release-0.7.5
     volumes:
       - /rail
     environment:
       - FLAVOR=rail
       - CONTAINER=rail
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   pugetsound:
     image: smartercleanup/platform:release-0.7.2
