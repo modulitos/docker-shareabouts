@@ -40,6 +40,16 @@ services:
       file: ./flavors.yml
       service: pugetsound_data
 
+  dev3:
+    extends:
+      file: ./flavors.yml
+      service: duwamish
+
+  dev3_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish_data
+
   # for ssl:
   letsencrypt:
     extends:
@@ -58,11 +68,13 @@ services:
       - greenways
       - rail
       - pugetsound
+      - dev3
     volumes_from:
       - duwamish-dev_data
       - greenways_data
       - rail_data
       - pugetsound_data
+      - dev3_data
     volumes:
       # for http:
       # - ./pod1-envsubst.conf:/etc/nginx/nginx.conf
