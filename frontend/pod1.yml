@@ -40,6 +40,16 @@ services:
       file: ./flavors.yml
       service: pugetsound_data
 
+  greensboropb:
+    extends:
+      file: ./flavors.yml
+      service: greensboropb
+
+  greensboropb_data:
+    extends:
+      file: ./flavors.yml
+      service: greensboropb_data
+
   dev3:
     extends:
       file: ./flavors.yml
@@ -69,12 +79,14 @@ services:
       - rail
       - pugetsound
       - dev3
+      - greensboropb
     volumes_from:
       - duwamish-dev_data
       - greenways_data
       - rail_data
       - pugetsound_data
       - dev3_data
+      - greensboropb_data
     volumes:
       # for http:
       # - ./pod1-envsubst.conf:/etc/nginx/nginx.conf
