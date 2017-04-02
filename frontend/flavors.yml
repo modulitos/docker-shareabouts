@@ -15,6 +15,10 @@ services:
       # TODO: Set up AIR production datasets!
       - AIR_DATASET_KEY=${AIR_DEV_KEY}
       - AIR_SITE_URL=${AIR_DEV_URL}
+      - RESTORATION_DATASET_KEY=${RESTORATION_KEY}
+      - RESTORATION_SITE_URL=${RESTORATION_URL}
+      - VISION_DATASET_KEY=${VISION_KEY}
+      - VISION_SITE_URL=${VISION_URL}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
