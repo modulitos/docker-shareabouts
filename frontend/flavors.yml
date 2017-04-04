@@ -371,10 +371,18 @@ services:
       - FLAVOR=greensboropb
       - SITE_KEY=${GREENSBOROPB_DEV_KEY}
       - SITE_URL=${GREENSBOROPB_DEV_URL}
-      - GREENSBOROPB_DATASET_KEY=${GREENSBOROPB_DEV_KEY}
-      - GREENSBOROPB_SITE_URL=${GREENSBOROPB_DEV_URL}
+      - GREENSBOROPB_DATASET_KEY=${GREENSBOROPB_KEY}
+      - GREENSBOROPB_SITE_URL=${GREENSBOROPB_URL}
+      - MAPBOX_TOKEN=${GREENSBOROPB_MAPBOX_TOKEN}
+      - EMAIL_ADDRESS=${GREENSBOROPB_EMAIL_ADDRESS}
+      - EMAIL_USERNAME=${EMAIL_PASSWORD}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
+      - GREENSBOROPB_ROUND1_SITE_URL=${GREENSBOROPB_ROUND1_SITE_URL}
     restart: always
-    command: sh -c "git fetch && git checkout greensboropb && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   greensboropb_data:
     image: mapseed/platform-data:release-0.7.5
@@ -383,4 +391,4 @@ services:
     environment:
       - FLAVOR=greensboropb
       - CONTAINER=greensboropb
-    command: sh -c "git fetch && git checkout greensboropb && git pull --rebase && /platform/scripts/start-data-container.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
