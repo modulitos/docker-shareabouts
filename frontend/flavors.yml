@@ -392,3 +392,25 @@ services:
       - FLAVOR=greensboropb
       - CONTAINER=greensboropb
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
+
+  metro-watershed:
+    image: mapseed/platform:release-0.7.5
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=metro-watershed
+      - SITE_KEY=${BOGTOBAY_KEY}
+      - SITE_URL=${BOGTOBAY_URL}
+      - BOGTOBAY_DATASET_KEY=${BOGTOBAY_KEY}
+      - BOGTOBAY_SITE_URL=${BOGTOBAY_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start.sh"
+
+  metro-watershed_data:
+    image: mapseed/platform-data:release-0.7.5
+    volumes:
+      - /metro-watershed
+    environment:
+      - FLAVOR=metro-watershed
+      - CONTAINER=metro-watershed
+    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start-data-container.sh"

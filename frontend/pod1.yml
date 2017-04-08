@@ -10,15 +10,15 @@ services:
       file: ./flavors.yml
       service: duwamish-dev_data
 
-  greenways:
+  metro-watershed:
     extends:
       file: ./flavors.yml
-      service: greenways
+      service: metro-watershed
 
-  greenways_data:
+  metro-watershed_data:
     extends:
       file: ./flavors.yml
-      service: greenways_data
+      service: metro-watershed_data
 
   rail:
     extends:
@@ -75,14 +75,14 @@ services:
       # service: nginx
     links:
       - duwamish-dev
-      - greenways
+      - metro-watershed
       - rail
       - pugetsound
       - dev3
       - greensboropb
     volumes_from:
       - duwamish-dev_data
-      - greenways_data
+      - metro-watershed_data
       - rail_data
       - pugetsound_data
       - dev3_data
