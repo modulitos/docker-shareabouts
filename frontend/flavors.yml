@@ -352,7 +352,7 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start.sh"
 
   pboakland_data:
     image: mapseed/platform-data:release-0.7.5
@@ -361,7 +361,7 @@ services:
     environment:
       - FLAVOR=pboakland
       - CONTAINER=pboakland
-    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
+    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   greensboropb:
     image: mapseed/platform:release-0.7.5
