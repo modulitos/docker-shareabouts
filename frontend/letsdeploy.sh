@@ -17,7 +17,7 @@ fi
 echo "starting project containers for ${PROJECT}:"
 # To avoid substituting nginx-related variables, lets specify only the
 # variables that we will substitute with envsubst:
-NGINX_VARS='$MY_DOMAIN_NAME:$DOMAINS'
+NGINX_VARS='$MY_DOMAIN_NAME:$DOMAINS:$LETSENCRYPT_ACME_CONTAINER'
 envsubst "$NGINX_VARS" < ${PROJECT}.conf > ${PROJECT}-envsubst.conf
 
 # For SSL:
