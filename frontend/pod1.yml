@@ -10,6 +10,16 @@ services:
       file: ./flavors.yml
       service: duwamish-dev_data
 
+  duwamish-dev2:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev2
+
+  duwamish-dev2_data:
+    extends:
+      file: ./flavors.yml
+      service: duwamish-dev2_data
+
   metro-watershed:
     extends:
       file: ./flavors.yml
@@ -50,16 +60,6 @@ services:
       file: ./flavors.yml
       service: greensboropb_data
 
-  dev3:
-    extends:
-      file: ./flavors.yml
-      service: duwamish
-
-  dev3_data:
-    extends:
-      file: ./flavors.yml
-      service: duwamish_data
-
   # for ssl:
   letsencrypt:
     extends:
@@ -75,17 +75,17 @@ services:
       # service: nginx
     links:
       - duwamish-dev
+      - duwamish-dev2
       - metro-watershed
       - rail
       - pugetsound
-      - dev3
       - greensboropb
     volumes_from:
       - duwamish-dev_data
+      - duwamish-dev2_data
       - metro-watershed_data
       - rail_data
       - pugetsound_data
-      - dev3_data
       - greensboropb_data
     volumes:
       # for http:
