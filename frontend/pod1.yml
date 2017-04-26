@@ -20,15 +20,15 @@ services:
       file: ./flavors.yml
       service: pboakland-dev_data
 
-  metro-watershed:
+  central-puget-sound:
     extends:
       file: ./flavors.yml
-      service: metro-watershed
+      service: central-puget-sound
 
-  metro-watershed_data:
+  central-puget-sound_data:
     extends:
       file: ./flavors.yml
-      service: metro-watershed_data
+      service: central-puget-sound_data
 
   rail:
     extends:
@@ -75,15 +75,15 @@ services:
       # service: nginx
     links:
       - duwamish-dev
-      - metro-watershed
       - pboakland-dev
+      - central-puget-sound
       - rail
       - pugetsound
       - greensboropb
     volumes_from:
       - duwamish-dev_data
-      - metro-watershed_data
       - pboakland-dev_data
+      - central-puget-sound_data
       - rail_data
       - pugetsound_data
       - greensboropb_data

@@ -454,24 +454,24 @@ services:
       - CONTAINER=greensboropb
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
-  metro-watershed:
+  central-puget-sound:
     image: mapseed/platform:release-0.7.5
     environment:
       - DEBUG=False
       - PORT=8000
-      - FLAVOR=metro-watershed
+      - FLAVOR=central-puget-sound
       - SITE_KEY=${BOGTOBAY_KEY}
       - SITE_URL=${BOGTOBAY_URL}
       - BOGTOBAY_DATASET_KEY=${BOGTOBAY_KEY}
       - BOGTOBAY_SITE_URL=${BOGTOBAY_URL}
     restart: always
-    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
-  metro-watershed_data:
+  central-puget-sound_data:
     image: mapseed/platform-data:release-0.7.5
     volumes:
-      - /metro-watershed
+      - /central-puget-sound
     environment:
-      - FLAVOR=metro-watershed
-      - CONTAINER=metro-watershed
-    command: sh -c "git fetch && git checkout content && git pull --rebase && /platform/scripts/start-data-container.sh"
+      - FLAVOR=central-puget-sound
+      - CONTAINER=central-puget-sound
+    command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
