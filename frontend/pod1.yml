@@ -10,15 +10,15 @@ services:
       file: ./flavors.yml
       service: duwamish-dev_data
 
-  duwamish-dev2:
+  pboakland-dev:
     extends:
       file: ./flavors.yml
-      service: duwamish-dev2
+      service: pboakland-dev
 
-  duwamish-dev2_data:
+  pboakland-dev_data:
     extends:
       file: ./flavors.yml
-      service: duwamish-dev2_data
+      service: pboakland-dev_data
 
   metro-watershed:
     extends:
@@ -75,15 +75,15 @@ services:
       # service: nginx
     links:
       - duwamish-dev
-      - duwamish-dev2
       - metro-watershed
+      - pboakland-dev
       - rail
       - pugetsound
       - greensboropb
     volumes_from:
       - duwamish-dev_data
-      - duwamish-dev2_data
       - metro-watershed_data
+      - pboakland-dev_data
       - rail_data
       - pugetsound_data
       - greensboropb_data
