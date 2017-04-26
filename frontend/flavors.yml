@@ -59,7 +59,7 @@ services:
       - EMAIL_PORT=${EMAIL_PORT}
       - EMAIL_NOTIFICATIONS_BCC=${EMAIL_NOTIFICATIONS_BCC}
     restart: always
-    command: sh -c "git fetch && git checkout editor-landmark-urls && git pull --rebase && /platform/scripts/start.sh"
+    command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev_data:
     image: mapseed/platform-data:release-0.7.5
@@ -68,7 +68,7 @@ services:
     environment:
       - FLAVOR=duwamish_flavor
       - CONTAINER=duwamish_dev
-    command: sh -c "git fetch && git checkout editor-landmark-urls && git pull --rebase && /platform/scripts/start-data-container.sh"
+    command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   duwamish-dev2:
     image: mapseed/platform:release-0.7.5
