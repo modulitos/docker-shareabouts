@@ -42,11 +42,12 @@ services:
     command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull --rebase && /api/start.sh"
 
   letsencrypt:
-    image: lukeswart/letsencrypt
-    entrypoint: ""
+    image: certbot/certbot
+    entrypoint: "sh"
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
+      - ./run-letsencrypt.sh:/run-letsencrypt.sh
     ports:
       - "80"
       - "443"
@@ -55,6 +56,7 @@ services:
       - LETSENCRYPT_DOMAINS=${LETSENCRYPT_DOMAINS}
       - LETSENCRYPT_DEBUG_MODE=${LETSENCRYPT_DEBUG_MODE}
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL}
+    command: "/run-letsencrypt.sh"
 
   # # For local testing only:
   # nginx:
