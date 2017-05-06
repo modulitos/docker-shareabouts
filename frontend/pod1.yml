@@ -60,6 +60,16 @@ services:
       file: ./flavors.yml
       service: greensboropb_data
 
+  raingardens:
+    extends:
+      file: ./flavors.yml
+      service: raingardens
+
+  raingardens_data:
+    extends:
+      file: ./flavors.yml
+      service: raingardens_data
+
   # for ssl:
   letsencrypt:
     extends:
@@ -80,6 +90,7 @@ services:
       - rail
       - pugetsound
       - greensboropb
+      - raingardens
     volumes_from:
       - duwamish-dev_data
       - pboakland-dev_data
@@ -87,6 +98,7 @@ services:
       - rail_data
       - pugetsound_data
       - greensboropb_data
+      - raingardens_data
     volumes:
       # for http:
       # - ./pod1-envsubst.conf:/etc/nginx/nginx.conf
