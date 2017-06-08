@@ -1,7 +1,7 @@
 version: '2'
 services:
   duwamish:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -25,7 +25,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /duwamish_production
     environment:
@@ -34,7 +34,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   duwamish-dev:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -64,7 +64,7 @@ services:
     command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /duwamish_dev
     environment:
@@ -104,7 +104,7 @@ services:
     command: sh -c "git fetch && git checkout sidebar-561 && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   bogtobay:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -119,7 +119,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   bogtobay_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /bogtobay
     environment:
@@ -188,7 +188,7 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   lakewashington:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -203,7 +203,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   lakewashington_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /lakewashington
     environment:
@@ -232,7 +232,7 @@ services:
     command: sh -c "git fetch && git checkout 0.6.4 && /platform/start-data-container.sh"
 
   gtopenspace:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -247,7 +247,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   gtopenspace_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /gtopenspace
     environment:
@@ -301,7 +301,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   rail:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -315,7 +315,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   rail_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /rail
     environment:
@@ -347,7 +347,7 @@ services:
     command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
 
   raingardens:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -360,7 +360,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   raingardens_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /raingardens
     environment:
@@ -429,7 +429,7 @@ services:
     command: sh -c "git fetch && git checkout story-sidebar-navigator && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   greensboropb:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -450,7 +450,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   greensboropb_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /greensboropb
     environment:
@@ -459,7 +459,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   central-puget-sound:
-    image: mapseed/platform:release-0.8.0
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -472,7 +472,7 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
   central-puget-sound_data:
-    image: mapseed/platform-data:release-0.8.0
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /central-puget-sound
     environment:
