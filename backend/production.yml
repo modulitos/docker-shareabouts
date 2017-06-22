@@ -32,7 +32,9 @@ services:
 
   nginx:
     extra_hosts:
-      - "hostnode:172.31.42.198"
+      # - "hostnode:172.31.42.198"
+      # ip bound to result of: sudo ip addr show docker0
+      - "hostnode:172.17.0.1"
     image: lukeswart/nginx-letsencrypt
     volumes:
       - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
