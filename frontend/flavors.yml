@@ -73,7 +73,7 @@ services:
     command: sh -c "git fetch && git checkout browserEditor-401 && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   duwamish-dev2:
-    image: mapseed/platform:release-0.7.5
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
@@ -95,7 +95,7 @@ services:
     command: sh -c "git fetch && git checkout sidebar-561 && git pull --rebase && /platform/scripts/start.sh"
 
   duwamish-dev2_data:
-    image: mapseed/platform-data:release-0.7.5
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /duwamish_dev2
     environment:
