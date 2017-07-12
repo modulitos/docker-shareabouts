@@ -324,27 +324,31 @@ services:
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   pugetsound:
-    image: smartercleanup/platform:release-0.7.2
+    image: mapseed/platform:release-0.8.1
     environment:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=pugetsound
-      - SITE_KEY=${DUWAMISH_KEY}
-      - SITE_URL=${DUWAMISH_URL}
+      - SITE_KEY=${PUGETSOUND_DEV_KEY}
+      - SITE_URL=${PUGETSOUND_DEV_URL}
       # Multi-dataset configs:
       - DUWAMISH_DATASET_KEY=${DUWAMISH_KEY}
       - DUWAMISH_SITE_URL=${DUWAMISH_URL}
+      - PUGETSOUND_SITE_URL=${PUGETSOUND_DEV_URL}
+      - PUGETSOUND_DATASET_KEY=${PUGETSOUND_DEV_KEY}
+      - PUGETSOUNDFEATURED_SITE_URL=${PUGETSOUNDFEATURED_DEV_SITE_URL}
+      - PUGETSOUNDFEATURED_DATASET_KEY=${PUGETSOUNDFEATURED_DEV_DATASET_KEY}
     restart: always
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start.sh"
+    command: sh -c "git fetch && git checkout pugetsound-dev && git pull --rebase && /platform/scripts/start.sh"
 
   pugetsound_data:
-    image: smartercleanup/platform-data:release-0.7.2
+    image: mapseed/platform-data:release-0.8.1
     volumes:
       - /pugetsound
     environment:
       - FLAVOR=pugetsound
       - CONTAINER=pugetsound
-    command: sh -c "git fetch && git checkout develop-0.7.0 && git pull --rebase && /platform/start-data-container.sh"
+    command: sh -c "git fetch && git checkout pugetsound-dev && git pull --rebase && /platform/scripts/start-data-container.sh"
 
   raingardens:
     image: mapseed/platform:release-0.8.1
