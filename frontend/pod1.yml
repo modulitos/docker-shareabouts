@@ -30,6 +30,16 @@ services:
       file: ./flavors.yml
       service: central-puget-sound_data
 
+  central-puget-sound-dev:
+    extends:
+      file: ./flavors.yml
+      service: central-puget-sound-dev
+
+  central-puget-sound-dev_data:
+    extends:
+      file: ./flavors.yml
+      service: central-puget-sound-dev_data
+
   rail:
     extends:
       file: ./flavors.yml
