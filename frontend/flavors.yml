@@ -468,10 +468,12 @@ services:
       - DEBUG=False
       - PORT=8000
       - FLAVOR=central-puget-sound
-      - SITE_KEY=${BOGTOBAY_KEY}
-      - SITE_URL=${BOGTOBAY_URL}
-      - BOGTOBAY_DATASET_KEY=${BOGTOBAY_KEY}
-      - BOGTOBAY_SITE_URL=${BOGTOBAY_URL}
+      - SITE_KEY=${MW_KEY}
+      - SITE_URL=${MW_URL}
+      - MW_DATASET_KEY=${MW_KEY}
+      - MW_SITE_URL=${MW_URL}
+      - MWFEATURED_DATASET_KEY=${MWFEATURED_DATASET_KEY}
+      - MWFEATURED_SITE_URL=${MWFEATURED_SITE_URL}
     restart: always
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start.sh"
 
@@ -483,3 +485,30 @@ services:
       - FLAVOR=central-puget-sound
       - CONTAINER=central-puget-sound
     command: sh -c "git fetch && git checkout master && git pull --rebase && /platform/scripts/start-data-container.sh"
+
+  central-puget-sound-dev:
+    image: mapseed/platform:release-0.8.1
+    environment:
+      - DEBUG=False
+      - PORT=8000
+      - FLAVOR=central-puget-sound
+      - SITE_KEY=${MW_KEY}
+      - SITE_URL=${MW_URL}
+      - MW_DATASET_KEY=${MW_KEY}
+      - MW_SITE_URL=${MW_URL}
+      - MWFEATURED_DATASET_KEY=${MWFEATURED_DATASET_KEY}
+      - MWFEATURED_SITE_URL=${MWFEATURED_SITE_URL}
+    restart: always
+    command: sh -c "git fetch && git checkout cps-updates-flow-layout && git pull --rebase && /platform/scripts/start.sh"
+
+  central-puget-sound-dev_data:
+    image: mapseed/platform-data:release-0.8.1
+    volumes:
+      - /central-puget-sound_dev
+    environment:
+      - FLAVOR=central-puget-sound
+      - CONTAINER=central-puget-sound_dev
+    command: sh -c "git fetch && git checkout cps-updates-flow-layout && git pull --rebase && /platform/scripts/start-data-container.sh"
+
+    
+    
