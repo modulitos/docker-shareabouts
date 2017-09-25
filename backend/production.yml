@@ -25,7 +25,7 @@ services:
       service: postgis
 
   smartercleanup-api:
-    image: mapseed/api:release-0.6.7
+    image: mapseed/api:release-0.6.8
     depends_on:
       - postgis
     restart: always
