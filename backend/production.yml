@@ -29,7 +29,7 @@ services:
     depends_on:
       - postgis
     restart: always
-    env_file: ./.env
+    env_file: ./.env-api
     volumes:
       - ./set-timezone.sh:/set-timezone.sh
     environment:
@@ -38,7 +38,6 @@ services:
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
-      - SENTRY_DSN=${SENTRY_DSN}
     command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull --rebase && /api/start.sh"
 
   letsencrypt:
