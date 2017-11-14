@@ -1,33 +1,8 @@
 version: '2'
 services:
-  backups:
-    image: kartoza/pg-backup:9.4
-    hostname: localhost
-    volumes:
-      - ~/postgres_data/smartercleanup-backups:/backups
-      - ./set-timezone.sh:/set-timezone.sh
-    links:
-      - postgis:backup-db
-    restart: always
-    environment:
-      - PGUSER=${POSTGRES_USER}
-      - PGPASSWORD=${POSTGRES_PASS}
-      - PGPORT=${POSTGRES_PORT}
-      - PGHOST=${POSTGRES_HOST}
-      - DUMPPREFIX=${DUMPPREFIX}
-      - PGDATABASE=${PGDATABASE}
-      - TZ=${TZ}
-    command: sh -c "/set-timezone.sh && /start.sh"
-
-  postgis:
-    extends:
-      file: ./db.yml
-      service: postgis
 
   smartercleanup-api:
     image: mapseed/api:release-0.6.8
-    depends_on:
-      - postgis
     restart: always
     env_file: ./.env-api
     volumes:
