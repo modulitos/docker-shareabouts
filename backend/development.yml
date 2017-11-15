@@ -1,6 +1,12 @@
-version: '2'
+version: '3'
 services:
-  postgis:
-    extends:
-      file: ./db.yml
-      service: postgis
+  db:
+    image: kartoza/postgis:9.4-2.1
+    volumes:
+      - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
+      - ./start-postgis.sh:/start-postgis.sh
+      - ./set-timezone.sh:/set-timezone.sh
+    networks:
+      - backend
+    ports:
+      - 25432:5432

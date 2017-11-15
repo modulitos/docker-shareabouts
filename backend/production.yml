@@ -1,12 +1,17 @@
-version: '2'
+version: '3'
 services:
-
   smartercleanup-api:
     image: mapseed/api:release-0.6.8
     restart: always
     env_file: ./.env-api
     volumes:
       - ./set-timezone.sh:/set-timezone.sh
+      - smartercleanup-api-static:/api
+    depends_on:
+      - db
+    networks:
+      - nginx
+      - backend
     environment:
       - PASS=${POSTGRES_PASS}
       - USERNAME=${POSTGRES_USER}
@@ -19,7 +24,7 @@ services:
     image: certbot/certbot
     entrypoint: "sh"
     volumes:
-      - /etc/letsencrypt:/etc/letsencrypt
+      - letsencrypt-certs:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
       - ./run-letsencrypt.sh:/run-letsencrypt.sh
     ports:
@@ -36,10 +41,14 @@ services:
   # nginx:
   #   image: nginx:stable-alpine
   #   volumes:
+  #   # don't forget to update nginx.conf here, DOMAINS:
   #     - ./nginx-envsubst.conf:/etc/nginx/nginx.conf
+  #     - smartercleanup-api:/api
+  #   networks:
+  #     - nginx
   #   links:
   #     - smartercleanup-api
-  #   volumes_from:
+  #   depends_on:
   #     - smartercleanup-api
   #   ports:
   #     - 80:80
@@ -50,11 +59,14 @@ services:
     volumes:
       - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
       - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
+      - smartercleanup-api-static:/api
+      - letsencrypt-certs:/etc/letsencrypt
     links:
       - smartercleanup-api
-    volumes_from:
+    depends_on:
       - smartercleanup-api
-      - letsencrypt
+    networks:
+      - nginx
     environment:
       - MY_DOMAIN_NAME=${MY_DOMAIN_NAME}
     ports:
@@ -72,3 +84,11 @@ services:
     #   - TZ=${TZ}
     # TODO: automate timezone script
     command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"
+
+  volumes:
+    letsencrypt-certs:
+    smartercleanup-api-static:
+
+  networks:
+    backend:
+    nginx:
