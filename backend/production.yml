@@ -6,9 +6,7 @@ services:
     env_file: ./.env-api
     volumes:
       - ./set-timezone.sh:/set-timezone.sh
-      - smartercleanup-api-static:/api
-    depends_on:
-      - db
+      - smartercleanup-api-static:/api/static
     networks:
       - nginx
       - backend
@@ -24,9 +22,11 @@ services:
     image: certbot/certbot
     entrypoint: "sh"
     volumes:
-      - letsencrypt-certs:/etc/letsencrypt
+      - /etc/letsencrypt:/etc/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
       - ./run-letsencrypt.sh:/run-letsencrypt.sh
+    networks:
+      - nginx
     ports:
       - "80"
       - "443"
@@ -59,12 +59,14 @@ services:
     volumes:
       - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
       - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
-      - smartercleanup-api-static:/api
-      - letsencrypt-certs:/etc/letsencrypt
+      - smartercleanup-api-static:/api/static
+      - /etc/letsencrypt:/etc/letsencrypt
     links:
       - smartercleanup-api
+      - letsencrypt
     depends_on:
       - smartercleanup-api
+      - letsencrypt
     networks:
       - nginx
     environment:
@@ -85,10 +87,9 @@ services:
     # TODO: automate timezone script
     command: sh -c "apk add --update tzdata && cp /usr/share/zoneinfo/US/Pacific /etc/localtime && echo 'America/Los_Angeles' > /etc/timezone && date && apk del tzdata && chmod a+x /etc/cron.d/letsencrypt-nginx-cron && touch /var/log/crond.log && crontab /etc/cron.d/letsencrypt-nginx-cron && crond -l 0 -L /var/log/crond.log && echo 'starting nginx-cron' && tail -f /var/log/crond.log"
 
-  volumes:
-    letsencrypt-certs:
-    smartercleanup-api-static:
+volumes:
+  smartercleanup-api-static:
 
-  networks:
-    backend:
-    nginx:
+networks:
+  backend:
+  nginx:
