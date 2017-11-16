@@ -1,16 +1,15 @@
 version: '3'
 services:
   db:
-    image: kartoza/postgis:9.4-2.1
+    image: kartoza/postgis:9.6-2.4
     volumes:
       - ~/postgres_data/smartercleanup-api:/var/lib/postgresql
-      - ./start-postgis.sh:/start-postgis.sh
-      - ./set-timezone.sh:/set-timezone.sh
     ports:
       - 25432:5432
     environment:
       - POSTGRES_PASS=${POSTGRES_PASS}
       - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DBNAME=${PGDATABASE}
+      - ALLOW_IP_RANGE=${POSTGRES_ALLOW_IP_RANGE}
       - TZ=${TZ}
     restart: always
-    command: sh -c "/set-timezone.sh && echo \"host all all 0.0.0.0/0 md5\" >> /etc/postgresql/9.4/main/pg_hba.conf && /start-postgis.sh"
