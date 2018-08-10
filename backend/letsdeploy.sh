@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo "removing containers:"
-docker rm -f `docker ps -aq -f name=${DEPLOYMENT_TYPE}_*`
-echo "cleanup volumes:"
-./../docker-remove-dangling-volumes.sh
-echo ""
 
 # variables defined from now on to be automatically exported:
 set -a
