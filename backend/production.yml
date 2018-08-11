@@ -39,7 +39,7 @@ services:
 
   # # For local testing only:
   # nginx:
-  #   image: nginx:stable-alpine
+  #   image: nginx
   #   volumes:
   #   # don't forget to update nginx.conf here, DOMAINS:
   #     - ./nginx-envsubst.conf:/etc/nginx/nginx.conf
@@ -55,7 +55,7 @@ services:
   #   restart: always
 
   nginx:
-    image: lukeswart/nginx-letsencrypt
+    image: modulitos/letsencrypt-nginx:release-1.0.0
     volumes:
       - ./nginx-acme-challenge-envsubst.conf:/etc/nginx/nginx.conf
       - ./nginx-envsubst.conf:/etc/nginx/nginx-secure.conf
