@@ -1,7 +1,7 @@
 version: '3'
 services:
   smartercleanup-api:
-    image: mapseed/api:release-0.6.8
+    image: mapseed/api:release-0.6.10
     restart: always
     env_file: ./.env-api
     volumes:
@@ -16,7 +16,7 @@ services:
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
-    command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull --rebase && /api/start.sh"
+    command: sh -c "/set-timezone.sh && git fetch && git checkout django1.8-drf3-upgrades && git pull && /api/start.sh"
 
   letsencrypt:
     image: certbot/certbot
