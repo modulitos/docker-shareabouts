@@ -16,7 +16,7 @@ services:
       - HOST=${POSTGRES_HOST}
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
-    command: sh -c "/set-timezone.sh && git fetch && git checkout django1.8-drf3-upgrades && git pull && /api/start.sh"
+    command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull && /api/start.sh"
 
   letsencrypt:
     image: certbot/certbot
