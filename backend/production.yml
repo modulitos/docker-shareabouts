@@ -1,7 +1,7 @@
 version: '3'
 services:
   smartercleanup-api:
-    image: mapseed/api:release-0.6.10
+    image: mapseed/api:release-1.1
     restart: always
     env_file: ./.env-api
     volumes:
