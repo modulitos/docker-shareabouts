@@ -1,7 +1,7 @@
 version: '3'
 services:
   smartercleanup-api:
-    image: mapseed/api:release-1.0.2
+    image: mapseed/api:release-1.3.0
     restart: always
     env_file: ./.env-api
     volumes:
@@ -17,6 +17,9 @@ services:
       - PORT=${POSTGRES_PORT}
       - TZ=${TZ}
     command: sh -c "/set-timezone.sh && git fetch && git checkout master && git pull && /api/start.sh"
+
+    # use this to avoid getting errors if we need to run a migration:
+    # command: sh -c "touch test.txt && tail -f test.txt"
 
   letsencrypt:
     image: certbot/certbot
